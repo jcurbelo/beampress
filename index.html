@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+
+        <div id="main-container">
+            <!-- Frame -->
+            <section class="frame">
+                <ol>
+                    <li data-onslide="1-">
+                        Introduction
+                        <!-- Items Container -->
+                        <ul>
+                            <li data-onslide="2-">The Model and the Problem</li>
+                            <li data-onslide="3-">The Integrated Approach</li>
+                        </ul>
+                        <!-- End of Items Container -->
+                    </li>
+                    <li data-onslide="4-">
+                        Bad News: Hardness Results
+                        <!-- Items Container -->
+                        <ul>
+                            <li data-onslide="5-">Hardness of PP-Partitioning of Haplotype Matrices</li>
+                            <li data-onslide="6-">Hardness of PP-Partitioning of Genotype Matrices</li>
+                        </ul>
+                        <!-- End of Items Container -->
+                    </li>
+                    <li data-onslide="7-">
+                        Good News: Tractability Results
+                        <!-- Items Container -->
+                        <ul>
+                            <li data-onslide="8-">Perfect Path Phylogenies</li>
+                            <li data-onslide="9-">Tractability of PPP-Partitioning of Genotype Matrices</li>
+                        </ul>
+                        <!-- End of Items Container -->
+                    </li>
+                </ol>
+                <!-- End of Items Container -->
+            </section>
+            <!-- End of Frame -->
+            
+            <!-- Frame -->
+            <section class="frame">
+                <!-- Block -->
+                <section class="block slide-item" data-onslide="1-">
+                    <!-- Block Title -->
+                    <header class="block-title">
+                        <p><i>Inputs</i></p>    
+                    </header>
+                    <!-- End of Block Title -->
+                    <!-- Items Container -->
+                    <ul data-onslide="2-">
+                        <li>A <b>genotype matrix</b> <i>G</i>.</li>
+                        <li>The <b>rows</b> of the matrix are <b>taxa / individuals</b>.</li>
+                        <li>The <b>columns</b> of the matrix are <b>SNP sites / characters</b>.</li>
+                    </ul>
+                    <!-- End of Items Container -->
+                </section>
+                <!-- End of Block -->
+                
+                <!-- Block -->
+                <section class="block slide-item" data-onslide="3-">
+                    <!-- Block Title -->
+                    <header class="block-title" >
+                        <p><i>Outputs</i></p>
+                        <!-- Items Container -->
+                        <ul data-onslide="4-">
+                            <li>A haplotype matrix <i>H</i>.</li>
+                            <li>Pairs of rows in <i>H</i> <b>explain</b> the rows of G.</li>
+                            <li>The haplotypes in <i>H</i> are <i>biologically plausible</i>.</li>
+                        </ul>
+                        <!-- End of Items Container -->
+                    </header>
+                    <!-- End of Block Title -->
+                </section>
+                <!-- End of Block -->
+            </section>
+            <!-- End of Frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <ul>
+                    <li data-onslide="1-">
+                        First Level
+                        <ul>
+                            <li data-onslide="2-">
+                                Second Level
+                                <ul>
+                                    <li data-onslide="3-">
+                                        Third Level
+                                    </li>
+                                    <li data-onslide="4-">Info in Third Level</li>
+                                </ul>
+                            </li>
+                            <li data-onslide="5-">Info in Second Level</li>
+                        </ul>
+                    </li>
+                    <li data-onslide="6-">
+                        Info in First level
+                    </li>
+                    <li data-onslide="7-">
+                        Still in First Level
+                        <ul>
+                            <li data-onslide="8-">Another info in Second level</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- End of Frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <ul>
+                    <li data-onslide="1-">I'll be present from now on </li>
+                    <li data-onslide="3-">I'll be present from slide 3 to the end</li>
+                    <li data-onslide="2,4">I'll be present on slide 2 and 4</li>
+                </ul>
+            </section>
+            <!-- End of Frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <ul>
+                    <li data-onslide="2">Good, wasn't?</li>
+                </ul>
+            </section>
+            <!-- End of Frame -->
+
+        </div>
+
+        <script src="js/vendor/jquery-1.10.2.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/beampress.js"></script>
+        <script>
+        $(document).ready(function(){
+            $("#main-container").beampress();
+        });
+        </script>
+    </body>
+</html>
