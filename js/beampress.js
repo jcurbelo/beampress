@@ -34,11 +34,9 @@
     	next();
     };
 
-
-    //Returns a 'slideItem' object containing
-    //the html selector and slide intervals given
-    //[data-onslide] attr
-    var getSlideItem = function (item, frameIndex){
+    //Returns the slide intervals given a selector (item)
+    var getSlideIntervals = function (item, frameIndex){
+        var slideIntervals = []        
         //Checks for frames [data-onslide]
         var slides = item.attr('data-onslide');
         // For some browsers, `attr` is undefined; for others,
@@ -47,33 +45,39 @@
             slides = slides.split(',');
         } else {
             slides = [];
-        }
-    	var slideIntervals = []
-    	var slideItem = {};
-    	slideItem.item = item;
-    	slideItem.slideIntervals = slideIntervals;
-    	//Having issues with \d (don't know why)
-		var reg = new RegExp( '([1-9][0-9]*)?(-)?([1-9][0-9]*)?')
-		slides.forEach(function (slide) {
-			var interval = {};
-			var matches = reg.exec(slide);
-			//Only one slide
-			if(matches[2] == undefined){
-				interval.lower = matches[1] || 0;
-				interval.upper = matches[1] || -1;
-			} else {
-				//getting lower and upper intervals
-				interval.lower = matches[1] || 0;
-				interval.upper = matches[3] || -1;
-			}
+        } 
+        //Having issues with \d (don't know why)
+        var reg = new RegExp( '([1-9][0-9]*)?(-)?([1-9][0-9]*)?')
+        slides.forEach(function (slide) {
+            var interval = {};
+            var matches = reg.exec(slide);
+            //Only one slide
+            if(matches[2] == undefined){
+                interval.lower = matches[1] || 0;
+                interval.upper = matches[1] || -1;
+            } else {
+                //getting lower and upper intervals
+                interval.lower = matches[1] || 0;
+                interval.upper = matches[3] || -1;
+            }
             if (frameIndex !== null){
                  lastPerFrame[frameIndex] = 0;
-			     lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.upper);
-			     lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.lower);
+                 lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.upper);
+                 lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.lower);
             }
-			slideIntervals.push(interval);
-		});
+            slideIntervals.push(interval);
+        });
 
+        return slideIntervals;               
+    }
+
+    //Returns a 'slideItem' object containing
+    //the html selector and slide intervals given
+    //[data-onslide] attr
+    var getSlideItem = function (item, frameIndex){
+    	var slideItem = {};
+    	slideItem.item = item;
+    	slideItem.slideIntervals = getSlideIntervals(item, frameIndex);
 		return slideItem;
     };
 
