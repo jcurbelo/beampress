@@ -43,6 +43,25 @@
     	next();
     };
 
+    var getFrameFromStrId = function (str){
+        var frame = null;
+        frames.forEach(function (f){
+            if(f.item.attr('id') !== undefined && 
+                f.item.attr('id') !== false && f.item.attr('id') == str){
+                //TODO: Think about objects for doing COPY
+                frame = {'item' : f.item};
+                var slideIntervals = [];
+                f.slideIntervals.forEach(function (si){
+                    slideIntervals.push({
+                        'upper' : si.upper,
+                        'lower' : si.lower});
+                });
+                frame.slideIntervals = slideIntervals;
+            }
+        });
+        return frame;
+    }
+
     //Returns the slide intervals given a selector (item)
     var getSlideIntervals = function (item, frameIndex){
         var slideIntervals = []        
@@ -162,6 +181,7 @@
         // console.log(frames);
         // console.log(lastPerFrame);
         // console.log(framesItems);
+        console.log(getFrameFromStrId('f-frame'));
     	//triggering key up
 		$(document).keyup(function (event){
 
