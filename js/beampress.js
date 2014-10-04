@@ -1,8 +1,9 @@
 (function ($) {
 	"use strict";
 
-	//all frames selectors
+	//all frames 
 	var frames = []
+    //all framesItem per frame
 	var framesItems = [] 
 	//last element per frame
 	var lastPerFrame = [];
@@ -15,30 +16,38 @@
     //Process all presentation's elements
     var processFrames = function() {
     	$('.frame').each(function (i) {
-    		lastPerFrame[i] = 0;
-    		framesItems[i] = [];
-    		frames[i] = $(this);
-    		var currentItems = {};
+            var frame = getSlideItem($(this), null);
+    		frames[i] = frame;
+            framesItems[i] = [];
     		$(this).find('[data-onslide]').each(function (j) {
-    			var slides =  $(this).attr('data-onslide').split(",");
-    			var slideItem = getSlideItem(slides, $(this), i);
+    			var slideItem = getSlideItem($(this), i);
     			framesItems[i].push(slideItem);
     			//Hiding item
     			$(this).css('opacity', 0);
     		});
-
+            //Hiding current frame
     		$(this).css('display', 'none');
     	});
     	//Showing first slide
-		frames[currentFrame].css('display', 'block');
+		frames[currentFrame].item.css('display', 'block');
 		//Increasing first slide show
     	next();
     };
 
+
     //Returns a 'slideItem' object containing
     //the html selector and slide intervals given
     //[data-onslide] attr
-    var getSlideItem = function (slides, item, frameIndex){
+    var getSlideItem = function (item, frameIndex){
+        //Checks for frames [data-onslide]
+        var slides = item.attr('data-onslide');
+        // For some browsers, `attr` is undefined; for others,
+        // `attr` is false.  Check for both.
+        if (slides !== undefined && slides !== false){
+            slides = slides.split(',');
+        } else {
+            slides = [];
+        }
     	var slideIntervals = []
     	var slideItem = {};
     	slideItem.item = item;
@@ -57,8 +66,11 @@
 				interval.lower = matches[1] || 0;
 				interval.upper = matches[3] || -1;
 			}
-			lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.upper);
-			lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.lower);
+            if (frameIndex !== null){
+                 lastPerFrame[frameIndex] = 0;
+			     lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.upper);
+			     lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.lower);
+            }
 			slideIntervals.push(interval);
 		});
 
@@ -120,8 +132,8 @@
     var nextFrame = function(){
     	if(currentFrame + 1 < frames.length){
     		//Thing about doing different transitions
-    		frames[currentFrame].css('display', 'none');
-    		frames[++currentFrame].css('display', 'block');
+    		frames[currentFrame].item.css('display', 'none');
+    		frames[++currentFrame].item.css('display', 'block');
     	}
     };
 
@@ -130,8 +142,8 @@
     var previousFrame = function(){
     	if(currentFrame - 1 >= 0){
     		//Thing about doing different transitions
-    		frames[currentFrame].css('display', 'none');
-    		frames[--currentFrame].css('display', 'block');
+    		frames[currentFrame].item.css('display', 'none');
+    		frames[--currentFrame].item.css('display', 'block');
     	}
     };
 
