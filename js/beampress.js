@@ -44,9 +44,14 @@
         		$(this).find('[data-onslide]').each(function (j) {
         			var slideItem = {'item' : $(this)};
                     slideItem.slideIntervals = getSlideIntervals($(this), hasOnSlide ? null : i);
+                    // slideItem.styles = undefined;
         			framesItems[i].push(slideItem);
-        			//Hiding item
-        			$(this).css('opacity', 0);
+                    if ($(this).attr('data-style') !== undefined && $(this).attr('data-style') !== false){
+                        slideItem.styles = getStylesDict($(this).attr('data-style'));
+                    } else {
+                        //Hiding item
+                        $(this).css('opacity', 0);                    
+                    }                   
         		});
             else
                 framesItems[i] = getFrameItems(frame.item);
@@ -58,6 +63,11 @@
 		//Increasing first slide show
     	next();
     };
+
+    var getStylesDict = function (str){
+        //TODO: Check 'str'
+        return eval("({" + str +  "})");
+    }
 
     //Returns all slideItems given an item (frame selector)
     var getFrameItems = function (item){
@@ -173,13 +183,19 @@
     		});
 
     		if (flag){
-    			slideItem.item.css('opacity', 100);
+                if(slideItem.styles)
+    			     slideItem.item.css(slideItem.styles);
+                else
+                    slideItem.item.css('opacity', 100);
     			//Checking for videos and audio tags
     			if (slideItem.item.is('video') || slideItem.item.is('audio')){
     				slideItem.item.trigger('play');
     			}
     		} else {
-    			slideItem.item.css('opacity', 0);
+                if(slideItem.styles)
+                     slideItem.item.removeAttr('style');
+                else
+                    slideItem.item.css('opacity', 0);
     			if (slideItem.item.is('video') || slideItem.item.is('audio')){
     				slideItem.item.trigger('pause');
     			}
