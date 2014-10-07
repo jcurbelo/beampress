@@ -128,18 +128,37 @@
             <!-- End of Frame -->
 
             <!-- Frame -->
-            <section id="f-frame" data-onslide="1-4" data-againframe="[f-frame] 1-7" class="frame">
-                <ul>
-                    <li data-onslide="1">I only appears on slide 1</li>
-                    <li data-onslide="2-">Testing frame overlays 2 and over</li>
-                    <li data-onslide="3-">Testing frame overlays 3 and over</li>
-                    <li data-onslide="4-">Testing frame overlays 4 and over</li>
-                    <li data-onslide="5-">Testing frame overlays 5 and over (again frame)</li>
-                    <li data-onslide="6">Testing frame overlays 6 only (again frame)</li>
-                    <li data-onslide="7-">Testing frame overlays 7 and over (again frame)</li>
+            <section id="f-frame" data-onslide="1" class="frame">
+                <ul>    
+                    <li data-onslide="1" > I will appear three times </li>
+                    <li data-onslide="2-">Im from slide 2 at first againframe call</li>
+                    <li data-onslide="3-">Im from slide 3 at first againframe call</li>
+                    <li data-onslide="4-">Im from slide 4 at first againframe call</li>
+                    <li data-onslide="5-">Im from slide 5 at first againframe call</li>
+                    <li data-onslide="6-">Im from slide 6 at second againframe call</li>
+                    <li data-onslide="7-">Im from slide 7 at second againframe call</li>
+                    <li data-onslide="8-">Im from slide 8 at second againframe call</li>
+                    <li data-onslide="9-">Im from slide 9 at second againframe call</li>
                 </ul>
             </section>
             <!-- End of Frame -->
+
+            <!-- Frame (againframe) -->
+            <section class="frame" data-againframe="[f-frame] 1-4"></section>
+            <!-- End of first againframe -->
+
+            <!-- Frame (againframe) -->
+            <section class="frame" data-againframe="[f-frame] 1-9"></section>
+            <!-- End of first againframe -->
+
+            <!-- Frame -->
+            <section  class="frame">
+                <ul>    
+                    <li data-onslide="1-"> I want to change my style</li>
+                    <li data-onslide="2-"> I also want to do it!!! </li>
+                    <li data-onslide="3-">Don't leave me behind</li>
+            </section>
+            <!-- End of Frame -->                        
 
         </div>
 

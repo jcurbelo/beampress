@@ -9,73 +9,65 @@
 	var lastPerFrame = [];
 	//curent frame
     var currentFrame = 0;
-
     //current slide (slide list starts at '1')
     var currentSlide = 0;
 
     //Process all presentation's elements
     var processFrames = function() {
-        var againFrames = []
     	$('.frame').each(function (i) {
             var hasAgainFrame = false;
             var hasOnSlide = false;
+            var frame = {'item' : $(this)};
+            var intervals = $(this);
+
             //Checks for frames [data-onslide]
             // For some browsers, `attr` is undefined; for others,
             // `attr` is false.  Check for both.
             if ($(this).attr('data-onslide') !== undefined && $(this).attr('data-onslide') !== false)
                 hasOnSlide = true;
-
-            if ($(this).attr('data-againframe') !== undefined && $(this).attr('data-againframe') !== false)
-                hasAgainFrame = true;            
-
-            var frame = {'item' : $(this)};
-            frame.slideIntervals = hasOnSlide ? getSlideIntervals($(this), i) : [];
-    		frames[i] = frame;
-            framesItems[i] = [];
-    		$(this).find('[data-onslide]').each(function (j) {
-    			var slideItem = {'item' : $(this)};
-                slideItem.slideIntervals = getSlideIntervals($(this), hasOnSlide ? null : i);
-    			framesItems[i].push(slideItem);
-    			//Hiding item
-    			$(this).css('opacity', 0);
-    		});
-            //Hiding current frame
-    		$(this).css('display', 'none');
-
-            //Adding the 'againframe' to the list of pendings againframes
-            if(hasAgainFrame){
+            
+            if ($(this).attr('data-againframe') !== undefined && $(this).attr('data-againframe') !== false){
+                hasAgainFrame = true;
                 var reg = new RegExp(/\s*\[(.*)\]\s*(.*)/);
                 var matches = reg.exec($(this).attr('data-againframe'));
                 var id = matches[1];
-                var intervals = matches[2];               
-                var frame = getFrameFromStrId(id);
-                if (frame !== null){
-                    againFrames.push({'pos' : i + 1, 'frame' : frame, 'intervals': intervals});
-                }    
+                intervals = matches[2];               
+                frame = getFrameFromStrId(id);                              
             }
+
+            
+            frame.slideIntervals = (hasOnSlide || hasAgainFrame) ? 
+                                getSlideIntervals(intervals, i) : [];
+    		frames[i] = frame;
+            framesItems[i] = [];
+            if(!hasAgainFrame)
+        		$(this).find('[data-onslide]').each(function (j) {
+        			var slideItem = {'item' : $(this)};
+                    slideItem.slideIntervals = getSlideIntervals($(this), hasOnSlide ? null : i);
+        			framesItems[i].push(slideItem);
+        			//Hiding item
+        			$(this).css('opacity', 0);
+        		});
+            else
+                framesItems[i] = getFrameItems(frame.item);
+            //Hiding current frame
+    		$(this).css('display', 'none');
     	});
     	//Showing first slide
 		frames[currentFrame].item.css('display', 'block');
-        //Processing pending againFrames
-        proccessAgainFrames(againFrames);
 		//Increasing first slide show
     	next();
     };
 
+    //Returns all slideItems given an item (frame selector)
+    var getFrameItems = function (item){
+        for (var i = 0; i < frames.length; i++) {
+            if(frames[i].item === item)
+                return framesItems[i];
+        };
 
-    var proccessAgainFrames = function (againFrames){
-        againFrames.forEach(function (af) {
-            //Inserting the new frame
-            frames.splice(af.pos, 0, af.frame);
-            //Adding the same items that previous frame have
-            framesItems.splice(af.pos, 0, framesItems[af.pos - 1]);
-            //Updating the new intervals if they exists
-            af.frame.slideIntervals = af.intervals ? getSlideIntervals(af.intervals, af.pos) : [];
-
-
-        });
-    }
-
+        return null;
+    }   
 
     //Returns a new copy of the frame that
     //has 'str' Id
@@ -217,9 +209,9 @@
 
     $.fn.beampress = function (options){
     	processFrames();
-        // console.log(frames);
-        // console.log(lastPerFrame);
-        // console.log(framesItems);
+        console.log(frames);
+        console.log(lastPerFrame);
+        console.log(framesItems);
         // console.log(getFrameFromStrId('f-frame'));
     	//triggering key up
 		$(document).keyup(function (event){
