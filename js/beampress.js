@@ -13,20 +13,17 @@
     var currentSlide = 0;
 
     //Process all presentation's elements
-    var processFrames = function() {
+    function init() {
     	$('.frame').each(function (i) {
             var hasAgainFrame = false;
             var hasOnSlide = false;
             var frame = {'item' : $(this)};
             var intervals = $(this);
 
-            //Checks for frames [data-onslide]
-            // For some browsers, `attr` is undefined; for others,
-            // `attr` is false.  Check for both.
-            if ($(this).attr('data-onslide') !== undefined && $(this).attr('data-onslide') !== false)
+            if ($(this).attr('data-onslide'))
                 hasOnSlide = true;
             
-            if ($(this).attr('data-againframe') !== undefined && $(this).attr('data-againframe') !== false){
+            if ($(this).attr('data-againframe')){
                 hasAgainFrame = true;
                 var reg = new RegExp(/\s*\[(.*)\]\s*(.*)/);
                 var matches = reg.exec($(this).attr('data-againframe'));
@@ -46,7 +43,7 @@
                     slideItem.slideIntervals = getSlideIntervals($(this), hasOnSlide ? null : i);
                     // slideItem.styles = undefined;
         			framesItems[i].push(slideItem);
-                    if ($(this).attr('data-style') !== undefined && $(this).attr('data-style') !== false){
+                    if ($(this).attr('data-style')){
                         slideItem.styles = getStylesDict($(this).attr('data-style'));
                     } else {
                         //Hiding item
@@ -64,13 +61,13 @@
     	next();
     };
 
-    var getStylesDict = function (str){
+    function getStylesDict(str){
         //TODO: Check 'str'
         return eval("({" + str +  "})");
     }
 
     //Returns all slideItems given an item (frame selector)
-    var getFrameItems = function (item){
+    function getFrameItems(item){
         for (var i = 0; i < frames.length; i++) {
             if(frames[i].item === item)
                 return framesItems[i];
@@ -81,11 +78,10 @@
 
     //Returns a new copy of the frame that
     //has 'str' Id
-    var getFrameFromStrId = function (str){
+    function getFrameFromStrId(str){
         var frame = null;
         frames.forEach(function (f){
-            if(f.item.attr('id') !== undefined && 
-                f.item.attr('id') !== false && f.item.attr('id') == str){
+            if(f.item.attr('id') && f.item.attr('id') == str){
                 //TODO: Think about objects for doing COPY
                 frame = {'item' : f.item};
                 var slideIntervals = [];
@@ -102,7 +98,7 @@
 
     //Returns the slide intervals given a selector 
     //or an array of slides (bag)
-    var getSlideIntervals = function (bag, frameIndex){
+    function getSlideIntervals(bag, frameIndex){
         var slideIntervals = []
         if (!(typeof bag === 'string'))      
            bag = bag.attr('data-onslide').split(',');
@@ -135,7 +131,7 @@
 
     //Show all slide items that are 'present' on
     //next slide 
-    var next = function(){
+    function next(){
     	if (lastPerFrame[currentFrame] == currentSlide){
     		currentSlide = 0;
     		nextFrame();
@@ -146,7 +142,7 @@
 
     //Show all slide items that are 'present' on
     //previous slide 
-    var previous = function (){
+    function previous(){
     	if (currentSlide == 0){
     		previousFrame();
     		currentSlide = lastPerFrame[currentFrame] + 1;
@@ -157,7 +153,7 @@
 
     //Shows all slide items present on current slide
     //and hide all that aren't
-    var updateSlideItems = function () {
+    function updateSlideItems() {
     	//Updating all items status
         //TODO: Think about doing events
     	framesItems[currentFrame].forEach(function (slideItem){
@@ -205,9 +201,9 @@
     	});	
     };
 
-    var nextFrame = function(){
+    function nextFrame(){
     	if(currentFrame + 1 < frames.length){
-    		//Thing about doing different transitions
+    		//Think about doing different transitions
     		frames[currentFrame].item.css('display', 'none');
     		frames[++currentFrame].item.css('display', 'block');
     	}
@@ -215,16 +211,16 @@
 
 
 
-    var previousFrame = function(){
+    function previousFrame(){
     	if(currentFrame - 1 >= 0){
-    		//Thing about doing different transitions
+    		//Think about doing different transitions
     		frames[currentFrame].item.css('display', 'none');
     		frames[--currentFrame].item.css('display', 'block');
     	}
     };
 
     $.fn.beampress = function (options){
-    	processFrames();
+    	init();
         console.log(frames);
         console.log(lastPerFrame);
         console.log(framesItems);
