@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/warsaw.css">
+        <script src="../../js/modernizr-2.6.2.min.js"></script>
+        <script type="text/javascript" src="../../js/MathJax/MathJax.js?config=AM_HTMLorMML-full"></script>
+    </head>
+    <body>
+
+        <div id="main-container">
+            <!-- Frame -->
+            <section class="frame">
+                            <canvas id="interval" height="450" width="600"></canvas>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-"  class="block-title">
+                        Escalamientos métricos para <i>MDS</i>
+                    </div>
+
+                    <div  class="authors">
+                        <ul>
+                            <li>Jorge R. Curbelo Fernández</li>
+                            <li>Eduardo Campver García</li>
+                        </ul>
+                    </div>
+
+                    <div class="inst">
+                        <p >Facultad de Matemática y Computación</p>
+                        <p >Universidad de la Habana</p>
+                    </div>
+                </div>
+
+
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Introducción</h1>
+                <div class="blocks-wrapper">
+                    <div  class="block">
+                        <header>
+                            Transformaciones de las proximidades
+                        </header>
+                        <div class="block-content">
+                            <ul>
+                                <li data-onslide="1-">Las proximidades son valores escalados por razón <i>(ratio-scaled values).</i></li>
+                                <li data-onslide="2-">En las ciencias sociales solo el <i>rank-order</i> de las proximidades es considerado.</li>
+                                <li data-onslide="3-">Las <i>disimilaridades `delta_(ij)`</i>  son entonces reemplazadas por las <i>disparidades `hat(d)_(ij)` (d-hats)</i> en la función de <b>Stress</b>.</li>
+                                <li data-onslide="4-">Si sólo el <i>rank-order</i> de las proximidades es considerado informativo, entonces las <i>disparidades</i> deben tener el mismo <i>rank-order</i> que las <i>proximidades</i>.</li>
+                                <li data-onslide="5-">En este caso estamos hablando de <b>MDS <i>ordinal</i> o <i>no métrico</i></b>.</li>
+                                <li data-onslide="6-">Si las <i>disparidades</i> están relacionadas con las <i>proximidades</i> mediante una función continua, entonces se considera <b>MDS <i>métrico</i></b>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS Métrico</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            <b>Stress</b> con <i>d-hats</i>
+                        </header>
+                        <div class="block-content">
+                            `sigma_r(hat(d),X) = sum_(i&lt;j)(w_(ij)(d_(ij)(X) - hat(d)_(ij)) ^ 2)`
+                        </div>
+                    </div>
+
+                    <div data-onslide="2-" class="block">
+                        <header>Notación</header>
+                        <div class="block-content">
+                            <ul>
+                                <li>`hat(d)` denota el vector de `s xx 1` de disparidades con `s = ((n),(2))`</li>
+                                <li>`X` denota la matriz de configuración</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Modelos MDS Métrico</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <div class="block-content">
+                            <ul>
+                                <li>MDS <i>absoluto</i> (caso más simple)</li>
+                                <li>MDS <i>de razón</i></li>
+                                <li>MDS <i>de intervalo</i></li>
+                                <li>MDS <i>logarítmico</i></li>
+                                <li>MDS <i>exponencial</i></li>
+                                <li>MDS <i>polinomial (spline)</i></li>
+                            </ul>                        
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS Absoluto</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <header>Fórmula</header>
+                        <div class="block-content">
+                            `sigma_r(hat(d),X) = sum_(i&lt;j)(w_(ij)(d_(ij)(X) - p_(ij)) ^ 2)`
+                        </div>
+                    </div>
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <ul>
+                                <li>En este caso las proximidades son exactamente las distancias entre los puntos `i` y `j`.</li>
+                                <li>Desde el punto de vista de su aplicación es irrelevante.</li>
+                            </ul>
+                             
+                        </div>
+                    </div>
+                </div>             
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->                           
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS de Razón</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <header>Fórmula</header>
+                        <div class="block-content">
+                            `sigma_r(hat(d),X) = sum_(i&lt;j)(w_(ij)(d_(ij)(X) - bp_(ij)) ^ 2)`
+                        </div>
+                    </div>
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <ul>
+                                <li>En este caso las proximidades deben ser disimilaridades.</li>
+                                <li>Es fácil de optimizar ya que al derivar `eta^2(X) + b^2eta_p^2 - 2b rho (X)` con respecto a `b` obtenemos `b = (rho(X))/(eta_p^2)`</li>
+                                <li>Esto nos da la actualización de `b` en cada iteración.</li>
+                            </ul>
+                             
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS de Intervalo</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <header>Fórmula</header>
+                        <div class="block-content">
+                            `hat(d)_(ij) = a + bp_(ij)`
+                        </div>
+                    </div>
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <p>Este modelo es una generalización del MDS <i>de razón</i> y se conoce como MDS <i>lineal</i> ya que son transformaciones lineales de los `p_(ij)`</p>
+                        </div>
+                    </div>
+                    <div data-onslide="3-" class="block">
+                        <div class="block-content">
+                            <ul>
+                                <li>Si los `p_(ij)` son disimilaridades entonces `b &gt; 0`</li>
+                                <li>Si los `p_(ij)` son similaridades entonces `b &lt; 0`</li>
+                                <li>La razón de cualquier par de disparidades debe ser igual a la razón de sus proximidades correspondientes.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS Logarítmico</h1>
+                <div class="blocks-wrapper">
+                    <div class="block" data-onslide="1-">
+                        <div class="block-content">
+                            <p>Por supuesto que la función no tiene que ser necesariamente lineal.</p>
+                        </div>
+                    </div>
+                    <div data-onslide="1-" class="block">
+                        <header>Fórmula</header>
+                        <div class="block-content">
+                            `hat(d)_(ij) = a +  b log(p_(ij))`
+                        </div>
+                    </div>
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <p>En general se puede escoger cualquier función continua.</p>
+                            <p>Pero algunas de ellas han probado ser bastante efectivas.</p>
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>MDS Exponencial y Polinomial</h1>
+                <div class="blocks-wrapper">
+                    <div class="block" data-onslide="1-">
+                        <header>Exponencial</header>
+                        <div class="block-content">
+                            `hat(d)_(ij) = a +  b exp(p_(ij))`
+                        </div>
+                    </div>
+                    <div data-onslide="2-" class="block">
+                        <header>Polinomial</header>
+                        <div class="block-content">
+                            `hat(d)_(ij) = a +  b p_(ij) + c p_(ij)^2`
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Conclusiones</h1>
+                <div class="blocks-wrapper">
+                    <div class="block" data-onslide="1-">
+                        <header>Problemas</header>
+                        <div class="block-content">
+                            <p>Disparidades <i>negativas</i> pueden resultar usando alguno de estos modelos.</p>
+                            <ul>
+                                <li>Usando el MDS <i>logarítmico</i> cuando `p_(ij) &lt; 1` ya que `log(x) &lt; 0` para `0 &lt; x &lt; 1` </li>
+                                <li>También puede ocurrir usando MDS <i>de intervalo</i></li>
+                                                            
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="block" data-onslide="2-">
+                        <header>Soluciones</header>
+                        <div class="block-content">
+                            <ol>
+                                <li>Restringir las disparidades a valores positivos</li>
+                                <li>Utilizar la modificación del algoritmo <b>SMACOF</b> para lidiar con disparidades negativas.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                    </div>
+                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+           
+
+        </div>
+
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/beampress.js"></script>
+        <script>       
+            $(document).ready(function(){
+                $("#main-container").beampress();                                
+            });
+        </script>
+    </body>
+</html>
