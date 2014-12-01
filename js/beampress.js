@@ -7,7 +7,7 @@
 	var framesItems = [] 
 	//last element per frame
 	var lastPerFrame = [];
-	//curent frame
+	//current frame
     var currentFrame = 0;
     //current slide (slide list starts at '1')
     var currentSlide = 0;
@@ -32,7 +32,7 @@
                 frame = getFrameFromStrId(id);                              
             }
 
-            
+            lastPerFrame[i] = 1;
             frame.slideIntervals = (hasOnSlide || hasAgainFrame) ? 
                                 getSlideIntervals(intervals, i) : [];
     		frames[i] = frame;
@@ -119,7 +119,6 @@
             }
             //Updating last slide per frame
             if(frameIndex !== null){
-                lastPerFrame[frameIndex] = 0;
                 lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.upper);
                 lastPerFrame[frameIndex] = Math.max(lastPerFrame[frameIndex], interval.lower);
             }
@@ -143,7 +142,7 @@
     //Show all slide items that are 'present' on
     //previous slide 
     function previous(){
-    	if (currentSlide == 0){
+    	if (currentSlide == 1){
     		previousFrame();
     		currentSlide = lastPerFrame[currentFrame] + 1;
     	}
