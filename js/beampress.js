@@ -1,5 +1,61 @@
-(function ($) {
+/*!
+ * Beampress plugin 
+ * Original author: @jcurbelo
+ */
+
+;(function ( $, window, document, undefined ) {
 	"use strict";
+
+    // Create the defaults once
+    var pluginName = 'beampress',
+        defaults = {
+            propertyName: "value"
+        };
+
+    // The actual plugin constructor
+    function Plugin( element, options ) {
+        this.element = element;
+
+        this.options = $.extend( {}, defaults, options) ;
+        
+        this._defaults = defaults;
+        this._name = pluginName;
+        
+        this.init();
+    }
+
+    Plugin.prototype.init = function () {
+        init();
+        console.log(frames);
+        console.log(lastPerFrame);
+        console.log(framesItems);
+
+        //triggering key up
+        $(document).keyup(function (event){
+
+         //right arrow || space bar
+         if(event.which == 39 || event.which == 32){
+             next();
+         }
+         //left arrow
+         if(event.which == 37){
+             previous();
+         }
+        });
+        //Providing chaining
+        return this;        
+    };
+
+    // A really lightweight plugin wrapper around the constructor, 
+    // preventing against multiple instantiations
+    $.fn[pluginName] = function ( options ) {
+        return this.each(function () {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, 
+                new Plugin( this, options ));
+            }
+        });
+    }        
 
 	//all frames 
 	var frames = []
@@ -218,28 +274,4 @@
     	}
     };
 
-    $.fn.beampress = function (options){
-    	init();
-        console.log(frames);
-        console.log(lastPerFrame);
-        console.log(framesItems);
-        // console.log(getFrameFromStrId('f-frame'));
-    	//triggering key up
-		$(document).keyup(function (event){
-
-			//right arrow || space bar
-			if(event.which == 39 || event.which == 32){
-			    next();
-			}
-			//left arrow
-			if(event.which == 37){
-				previous();
-			}
-		});
-		//Providing chaining
-		return this;
-    };
-
-
-
-}(jQuery));
+})( jQuery, window, document );
