@@ -7,7 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/warsaw.css">
+        <script src="../../js/jquery-1.10.2.min.js"></script>
         <script src="../../js/modernizr-2.6.2.min.js"></script>
+        <script src="../../js/jquery.syntaxhighlighter.js"></script>
+        <script type="text/javascript">$.SyntaxHighlighter.init();</script>
     </head>
     <body>
 
@@ -26,7 +29,7 @@
                     </div>
 
                     <div class="inst">
-                        <p >Beampress Tutorial</p>
+                        <p >Presentation plugin based on Beamer's syntax.</p>
                     </div>
                 </div>
 
@@ -39,28 +42,6 @@
                 </footer>
             </section>
             <!-- End of frame -->
-
-            <!-- Frame -->
-            <section class="frame">
-                <h1>Introduction</h1>
-                <div class="blocks-wrapper">
-                    <div  class="block">
-                        <header>
-                            What is <i>beampress</i>?
-                        </header>
-                        <div class="block-content">
-                            intro goes in here.
-                        </div>
-                    </div>
-                </div>
-                <footer class="clearifx">
-                    <div class="authors">
-                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
-                    </div>
-                    <div class="topic"><p>Beampress Tutorial</p></div>
-                </footer>
-            </section>
-            <!-- End of frame --> 
 
             <!-- Frame -->
             <section class="frame">
@@ -71,15 +52,67 @@
                             Main Container 
                         </header>
                         <div class="block-content">
-                            Define all presentation content (frames) within a main container
+                            Wrap all presentation content into a container e.g <i>main-container</i>. This element will contains all the <i>frames</i> and <i>slide-items</i>.
+                            <pre class="code language-html">
+                                &lt;div class="main-container"&gt;
+                                     &lt;!-- The frames (presentation content) go here --&gt;
+                                &lt;/div&gt;
+                            </pre>
                         </div>
 
                     </div>
 
                     <div data-onslide="2-" class="block">
-                        <header>Define <i>frames</i></header>
+                        <header>Defining <i>frames</i></header>
                         <div class="block-content">
+                            Frames are defined using the <i>frame</i> class. The flow of the presentation slides will have the order in which the <i>frame</i> elements are defined.
+                            <pre class="code language-html">
+                                &lt;div class="main-container"&gt;
+                                     &lt;section class="frame"&gt;First Frame&lt;/section&gt;
+                                     &lt;section class="frame"&gt;Second Frame&lt;/section&gt;
+                                     &lt;!-- ... --&gt;
+                                     &lt;section class="frame"&gt;Nth Frame&lt;/section&gt;
+                                &lt;/div&gt;
+                            </pre>                            
+                        </div> 
+                    </div>
+                </div>
+                <footer class="clearifx">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
 
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Using slides</h1>
+                <div class="blocks-wrapper">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Frame slides 
+                        </header>
+                        <div class="block-content">
+                            The slides intervals of each 'slide-item' are specified with the <i>data-onslide</i> attr. A 'slide-item' can have one or more intervals (separated by comma). This syntax have the same Beamer's interval notation. Note that if an element doesn't contain this attr will always be visible.
+                            <pre class="code language-html">
+                                &lt;section class="frame"&gt;
+                                    &lt;h1&gt;I'll be always visible!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1-"&gt;I'll be present from slide 1 to the end.&lt;/span&gt;
+                                    &lt;span data-onslide="2,4"&gt;I'll be present on slide 2 and 4.&lt;/span&gt;
+                                    &lt;span data-onslide="1,2-4,7-"&gt;I'll be present from slide 1 to 4 and then from slide 7 to the end.&lt;/span&gt;
+                                    &lt;span data-onslide="-3,5-8"&gt;I'll be present until slide 3 and then from slide 5 to 8.&lt;/span&gt;
+                                &lt;/section&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <b>Note</b>: <br>
+                            Showing/Hiding 'slide-items' using this way, are made by transforming css <i>opacity</i> attr. No animation is used.
                         </div>
                     </div>
                 </div>
@@ -92,234 +125,154 @@
             </section>
             <!-- End of frame --> 
 
-    <section id="test-53" data-onslide="1" class="frame">
-        <h1>Testing typesetting and overlays</h1>
-        <div class="blocks-wrapper">
-          Hola
-          <span style="color: blue;"><span data-style="'font-weight': 'bold'" data-onslide="2-">mundo </span><span data-style="'color': 'red'" data-onslide="3-">rojo</span></span>
-          <span data-onslide="4">Hola de nuevo en el slide 4 (despues desaparecere)</span>
-          <span data-onslide="5-">Hola de nuevo en el slide 5</span>
-          <span data-onslide="6-">Todo sera mas interesante a partir de ahora</span>
-        </div>
-    </section> 
-      
-    <section class="frame" data-againframe="[test-53] 2"></section>
-    <section class="frame" data-againframe="[test-53] 3"></section>
-    <section class="frame" data-againframe="[test-53] 4, 5-6"></section>           
-
             <!-- Frame -->
             <section class="frame">
-                <h1>Modelos MDS Métrico</h1>
-                <div class="blocks-wrapper">
-                    <div class="block">
-                        <div class="block-content">
-                            <ul>
-                                <li>MDS <i>absoluto</i> (caso más simple)</li>
-                                <li>MDS <i>de razón</i></li>
-                                <li>MDS <i>de intervalo</i></li>
-                                <li>MDS <i>logarítmico</i></li>
-                                <li>MDS <i>exponencial</i></li>
-                                <li>MDS <i>polinomial (spline)</i></li>
-                            </ul>                        
-                        </div>
-                    </div>
-                </div>
-                <footer class="clearifx">
-                    <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
-                    </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
-                </footer>
-            </section>
-            <!-- End of frame -->
-
-            <!-- Frame -->
-            <section class="frame">
-                <h1>MDS Absoluto</h1>
+                <h1>Using slides</h1>
                 <div class="blocks-wrapper">
                     <div data-onslide="1-" class="block">
-                        <header>Fórmula</header>
+                        <header>
+                            Changing style 
+                        </header>
                         <div class="block-content">
-                            `sigma_r(hat(d),X) = sum_(i&lt;j)(w_(ij)(d_(ij)(X) - p_(ij)) ^ 2)`
+                            'Slide-items' css properties can be updated on a specific slide using a 'data-style' attr. This 'data-style' recieves a 'property' : 'value' dictionary e.g data-style="'font-weight':'bold'", which are the rules to be updated on the 'slide-item'. Combining <i>data-onslide</i> and <i>data-style</i> attrs, different slide effects can be done.
+                            <pre class="code language-html">
+                                &lt;section class="frame"&gt;
+                                    &lt;ul&gt;    
+                                        &lt;li data-onslide="1-"&gt; 
+                                            &lt;span data-onslide="2-" data-style="'font-style':'italic'"&gt;
+                                                I want to 
+                                                &lt;span data-onslide="3-" data-style="'color': 'red'"&gt;
+                                                    change on slide 2 &amp; 3
+                                                &lt;/span&gt;
+                                            &lt;/span&gt;
+                                        &lt;/li&gt;
+                                        &lt;li data-onslide="2-"&gt;
+                                            Hello 
+                                            &lt;span data-onslide="3-" data-style="'color': '#0b79e5', 'font-weight':'bold'"&gt;  
+                                                bold 
+                                            &lt;/span&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                &lt;/section&gt;
+                            </pre>
                         </div>
+
                     </div>
-                    <div data-onslide="2-" class="block">
-                        <div class="block-content">
-                            <ul>
-                                <li>En este caso las proximidades son exactamente las distancias entre los puntos `i` y `j`.</li>
-                                <li>Desde el punto de vista de su aplicación es irrelevante.</li>
-                            </ul>
-                             
-                        </div>
-                    </div>
-                </div>             
+
+                </div>
                 <footer class="clearifx">
                     <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
                     </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
                 </footer>
             </section>
-            <!-- End of frame -->                           
+            <!-- End of frame -->    
+
             <!-- Frame -->
             <section class="frame">
-                <h1>MDS de Razón</h1>
+                <h1>Using slides</h1>
                 <div class="blocks-wrapper">
                     <div data-onslide="1-" class="block">
-                        <header>Fórmula</header>
+                        <header>
+                            Using custom frame 'data-onslide' 
+                        </header>
                         <div class="block-content">
-                            `sigma_r(hat(d),X) = sum_(i&lt;j)(w_(ij)(d_(ij)(X) - bp_(ij)) ^ 2)`
+                            Custom frame intervals can be defined using 'data-onslide' in the 'frame' element; with this way only the 'slide-items' that are contained into frame intervals are shown.
+                            <pre class="code language-html">
+                                &lt;section class="frame" data-onslide="2, 4-6"&gt;
+                                    &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1"&gt;I'm never going to be visible :-( &lt;/span&gt;
+                                    &lt;span data-onslide="2"&gt;Cheers from and only slide 2 &lt;/span&gt;
+                                    &lt;span data-onslide="3-"&gt;I'll be present from slide 4&lt;/span&gt;
+                                    &lt;span data-onslide="4-"&gt;If you've followed this tutorial&lt;/span&gt;
+                                    &lt;span data-onslide="5-"&gt;Then&lt;/span&gt;
+                                    &lt;span data-onslide="6-"&gt;You know the rest&lt;/span&gt;
+                                &lt;/section&gt;
+                            </pre>
                         </div>
+
                     </div>
-                    <div data-onslide="2-" class="block">
-                        <div class="block-content">
-                            <ul>
-                                <li>En este caso las proximidades deben ser disimilaridades.</li>
-                                <li>Es fácil de optimizar ya que al derivar `eta^2(X) + b^2eta_p^2 - 2b rho (X)` con respecto a `b` obtenemos `b = (rho(X))/(eta_p^2)`</li>
-                                <li>Esto nos da la actualización de `b` en cada iteración.</li>
-                            </ul>
-                             
-                        </div>
-                    </div>
+
                 </div>
                 <footer class="clearifx">
                     <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
                     </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
                 </footer>
             </section>
-            <!-- End of frame -->
+            <!-- End of frame --> 
 
             <!-- Frame -->
             <section class="frame">
-                <h1>MDS de Intervalo</h1>
+                <h1>Using slides</h1>
                 <div class="blocks-wrapper">
                     <div data-onslide="1-" class="block">
-                        <header>Fórmula</header>
+                        <header>
+                            Again frame 
+                        </header>
                         <div class="block-content">
-                            `hat(d)_(ij) = a + bp_(ij)`
+                            The same frame but with differents slides can be shown using 'data-againframe'. This attr has the following syntax: 'data-againframe=[frame-id] intervals', where <i>intervals</i> have the same format as 'data-onslide' attr. For further information read <a href="http://mirror.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf">Beamer Documentation</a>
+                            <pre class="code language-html">
+                                &lt;section id="f-1" class="frame" data-onslide="2, 4-6"&gt;
+                                    &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1"&gt;Now i'm going to exists with the first againframe call &lt;/span&gt;
+                                    &lt;span data-onslide="2"&gt;Cheers from and only slide 2 &lt;/span&gt;
+                                    &lt;span data-onslide="3-"&gt;I'll be present from slide 4 and in the second againframe call&lt;/span&gt;
+                                    &lt;span data-onslide="4-"&gt;If you've followed this tutorial&lt;/span&gt;
+                                    &lt;span data-onslide="5-"&gt;Then&lt;/span&gt;
+                                    &lt;span data-onslide="6-"&gt;You know the rest&lt;/span&gt;
+                                    &lt;span data-onslide="7-"&gt;See ya!!!&lt;/span&gt;
+                                &lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 1"&gt;&lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 2"&gt;&lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 4-7"&gt;&lt;/section&gt;
+                            </pre>
                         </div>
+
                     </div>
-                    <div data-onslide="2-" class="block">
-                        <div class="block-content">
-                            <p>Este modelo es una generalización del MDS <i>de razón</i> y se conoce como MDS <i>lineal</i> ya que son transformaciones lineales de los `p_(ij)`</p>
-                        </div>
-                    </div>
-                    <div data-onslide="3-" class="block">
-                        <div class="block-content">
-                            <ul>
-                                <li>Si los `p_(ij)` son disimilaridades entonces `b &gt; 0`</li>
-                                <li>Si los `p_(ij)` son similaridades entonces `b &lt; 0`</li>
-                                <li>La razón de cualquier par de disparidades debe ser igual a la razón de sus proximidades correspondientes.</li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
                 <footer class="clearifx">
                     <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
                     </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
                 </footer>
             </section>
-            <!-- End of frame -->
+            <!-- End of frame -->     
 
             <!-- Frame -->
             <section class="frame">
-                <h1>MDS Logarítmico</h1>
+                <h1>The End</h1>
                 <div class="blocks-wrapper">
-                    <div class="block" data-onslide="1-">
-                        <div class="block-content">
-                            <p>Por supuesto que la función no tiene que ser necesariamente lineal.</p>
-                        </div>
-                    </div>
                     <div data-onslide="1-" class="block">
-                        <header>Fórmula</header>
+                        <header>
+                            That's all
+                        </header>
                         <div class="block-content">
-                            `hat(d)_(ij) = a +  b log(p_(ij))`
+                            Hope you like this tool..
+                            <b>Remember</b>: Presentation design and style is up to you.
+                            <br>
+                            Regards!!!
                         </div>
-                    </div>
-                    <div data-onslide="2-" class="block">
-                        <div class="block-content">
-                            <p>En general se puede escoger cualquier función continua.</p>
-                            <p>Pero algunas de ellas han probado ser bastante efectivas.</p>
-                        </div>
-                    </div>
-                </div>
-                <footer class="clearifx">
-                    <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
-                    </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
-                </footer>
-            </section>
-            <!-- End of frame -->
 
-            <!-- Frame -->
-            <section class="frame">
-                <h1>MDS Exponencial y Polinomial</h1>
-                <div class="blocks-wrapper">
-                    <div class="block" data-onslide="1-">
-                        <header>Exponencial</header>
-                        <div class="block-content">
-                            `hat(d)_(ij) = a +  b exp(p_(ij))`
-                        </div>
                     </div>
-                    <div data-onslide="2-" class="block">
-                        <header>Polinomial</header>
-                        <div class="block-content">
-                            `hat(d)_(ij) = a +  b p_(ij) + c p_(ij)^2`
-                        </div>
-                    </div>
-                </div>
-                <footer class="clearifx">
-                    <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
-                    </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
-                </footer>
-            </section>
-            <!-- End of frame -->
 
-            <!-- Frame -->
-            <section class="frame">
-                <h1>Conclusiones</h1>
-                <div class="blocks-wrapper">
-                    <div class="block" data-onslide="1-">
-                        <header>Problemas</header>
-                        <div class="block-content">
-                            <p>Disparidades <i>negativas</i> pueden resultar usando alguno de estos modelos.</p>
-                            <ul>
-                                <li>Usando el MDS <i>logarítmico</i> cuando `p_(ij) &lt; 1` ya que `log(x) &lt; 0` para `0 &lt; x &lt; 1` </li>
-                                <li>También puede ocurrir usando MDS <i>de intervalo</i></li>
-                                                            
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="block" data-onslide="2-">
-                        <header>Soluciones</header>
-                        <div class="block-content">
-                            <ol>
-                                <li>Restringir las disparidades a valores positivos</li>
-                                <li>Utilizar la modificación del algoritmo <b>SMACOF</b> para lidiar con disparidades negativas.</li>
-                            </ol>
-                        </div>
-                    </div>
                 </div>
                 <footer class="clearifx">
                     <div class="authors">
-                        <p>Jorge R. Curbelo Fernández, Eduardo Campver</p>
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
                     </div>
-                    <div class="topic"><p>Escalamientos métricos para <i>MDS</i></p></div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
                 </footer>
             </section>
-            <!-- End of frame -->
-           
+            <!-- End of frame -->                                                            
 
         </div>
 
-        <script src="../../js/jquery-1.10.2.min.js"></script>
+        
         <script src="../../js/beampress.js"></script>
         <script>       
             $(document).ready(function(){
