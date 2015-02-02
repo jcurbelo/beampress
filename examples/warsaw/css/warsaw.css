@@ -106,7 +106,7 @@ body {
 }
 
 .frame .block {
-    width: 780px;
+    width: 90%;
     margin: 0 auto 25px auto;
     border-radius: 10px;
     background: rgb(233, 233, 243);
