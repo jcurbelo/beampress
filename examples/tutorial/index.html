@@ -46,7 +46,7 @@
                 <div class="blocks-wrapper">
                     <div  class="block">
                         <header>
-                            What is <i>beampress</i>
+                            What is <i>beampress</i>?
                         </header>
                         <div class="block-content">
                             intro goes in here.
@@ -68,10 +68,10 @@
                 <div class="blocks-wrapper">
                     <div data-onslide="1-" class="block">
                         <header>
-                            Define all presentation content (frames) within a main container 
+                            Main Container 
                         </header>
                         <div class="block-content">
-                            
+                            Define all presentation content (frames) within a main container
                         </div>
 
                     </div>
@@ -92,13 +92,20 @@
             </section>
             <!-- End of frame --> 
 
-    <section id="test-53" data-overlay="1" class="frame">
+    <section id="test-53" data-onslide="1" class="frame">
         <h1>Testing typesetting and overlays</h1>
         <div class="blocks-wrapper">
           Hola
           <span style="color: blue;"><span data-style="'font-weight': 'bold'" data-onslide="2-">mundo </span><span data-style="'color': 'red'" data-onslide="3-">rojo</span></span>
+          <span data-onslide="4">Hola de nuevo en el slide 4 (despues desaparecere)</span>
+          <span data-onslide="5-">Hola de nuevo en el slide 5</span>
+          <span data-onslide="6-">Todo sera mas interesante a partir de ahora</span>
         </div>
-      </section>            
+    </section> 
+      
+    <section class="frame" data-againframe="[test-53] 2"></section>
+    <section class="frame" data-againframe="[test-53] 3"></section>
+    <section class="frame" data-againframe="[test-53] 4, 5-6"></section>           
 
             <!-- Frame -->
             <section class="frame">
