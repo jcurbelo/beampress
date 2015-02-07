@@ -90,32 +90,38 @@
 
             //Has slides contrains 
             var isOverlayed = hasOnSlide || hasAgainFrame;
+
+            var hasUpperLimit = true;
             lastPerFrame[i] = 1;
             firstPerFrame[i] = 1;
+            var prevFirstSlide = 1;
             frame.slideIntervals = [];
 
             if(isOverlayed){
                 firstPerFrame[i] = 100;
-                frame.slideIntervals = getSlideIntervals(intervals, i);    
+                hasUpperLimit = setSlideIntervals(frame, intervals, i);
+                prevFirstSlide = firstPerFrame[i];    
             }
 
     		frames[i] = frame;
             framesItems[i] = [];
-            if(!hasAgainFrame)
-        		$(this).find('[data-onslide]').each(function (j) {
-        			var slideItem = {'item' : $(this)};
-                    slideItem.slideIntervals = getSlideIntervals($(this), hasOnSlide ? null : i);
-                    // slideItem.styles = undefined;
-        			framesItems[i].push(slideItem);
-                    if ($(this).attr('data-style')){
-                        slideItem.styles = getStylesDict($(this).attr('data-style'));
-                    } else {
-                        //Hiding item
-                        $(this).css('opacity', 0);                    
-                    }                   
-        		});
-            else
-                framesItems[i] = getFrameItems(frame.item);
+
+            //Setting all the 'slide-items'         
+    		$(frame.item).find('[data-onslide]').each(function (j) {
+    			var slideItem = {'item' : $(this)};
+                setSlideIntervals(slideItem, $(this), (hasUpperLimit && isOverlayed) ? null : i);
+                // slideItem.styles = undefined;
+    			framesItems[i].push(slideItem);
+                if ($(this).attr('data-style')){
+                    slideItem.styles = getStylesDict($(this).attr('data-style'));
+                } else {
+                    //Hiding item
+                    $(this).css('opacity', 0);                    
+                }                   
+    		});
+
+            firstPerFrame[i] = prevFirstSlide;
+
             //Hiding current frame
     		$(this).css('display', 'none');
     	});
@@ -160,10 +166,49 @@
         return frame;
     }
 
+    
+    // function setFrameSlideIntervals(obj, intervals, frameIndex){
+    //     var slideIntervals = [];
+    //     var hasUpperLimit = true;
+    //     intervals = intervals.split(',');
+    //     var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/);
+    //     intervals.forEach(function (slide){
+    //         var interval = {};
+    //         var matches = reg.exec(slide);
+
+    //         interval.lower = matches[1] || 0;
+    //         //Only one slide
+    //         if(matches[2] == undefined){
+    //             interval.upper = matches[1] || -1;
+    //         } else if (matches[3]){
+    //             interval.upper = matches[3];
+    //         } else {
+    //             interval.upper = -1;
+    //             hasUpperLimit = false;
+    //         }
+    //         var u = interval.upper,
+    //             l = interval.lower,
+    //             lpf = lastPerFrame[frameIndex],
+    //             fpf = firstPerFrame[frameIndex];
+
+    //         //Getting max interval
+    //         lastPerFrame[frameIndex] = Math.max(Math.max(u, l), lpf);
+    //         //Getting min interbal
+    //         firstPerFrame[frameIndex] = Math.min(l, fpf);
+            
+    //         slideIntervals.push(interval);            
+
+    //     });
+
+    //     frames[frameIndex].slideIntervals = slideIntervals;
+    //     return hasUpperLimit;
+    // }
+
     //Returns the slide intervals given a selector 
     //or an array of slides (bag)
-    function getSlideIntervals(bag, frameIndex){
-        var slideIntervals = []
+    function setSlideIntervals(obj, bag, frameIndex){
+        var slideIntervals = [],
+            hasUpperLimit = true;
         if (!(typeof bag === 'string'))      
            bag = bag.attr('data-onslide').split(',');
         else
@@ -177,9 +222,14 @@
             //Only one slide
             if(matches[2] == undefined){
                 interval.upper = matches[1] || -1;
-            } else {
-                interval.upper = matches[3] || -1;
-            }
+            } else 
+                if (matches[3]){
+                    interval.upper = matches[3];
+                } else {
+                    interval.upper = -1;
+                    hasUpperLimit = false;
+                }
+
             //Updating last and first slide per frame
             if(frameIndex !== null){
                 var u = interval.upper,
@@ -189,13 +239,13 @@
 
                 //Getting max interval
                 lastPerFrame[frameIndex] = Math.max(Math.max(u, l), lpf);
-                //Getting min interbal
+                //Getting min interval
                 firstPerFrame[frameIndex] = Math.min(l, fpf);
             }
             slideIntervals.push(interval);
         });
-
-        return slideIntervals;               
+        obj.slideIntervals = slideIntervals;
+        return hasUpperLimit;               
     }
 
     //Show all slide items that are 'present' on
