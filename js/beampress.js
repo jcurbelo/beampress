@@ -252,6 +252,7 @@
     //next slide 
     function next(){
     	if (lastPerFrame[currentFrame] == currentSlide){
+            if(currentFrame + 1 >= frames.length) return;
             nextFrame();
     		currentSlide = firstPerFrame[currentFrame] - 1;
     	}
@@ -263,7 +264,8 @@
     //previous slide 
     function previous(){
     	if (currentSlide == firstPerFrame[currentFrame]){
-    		previousFrame()
+            if(currentFrame - 1 < 0) return;
+    		previousFrame();
     		currentSlide = lastPerFrame[currentFrame] + 1;
     	}
     	currentSlide--;
@@ -321,21 +323,21 @@
     };
 
     function nextFrame(){
-    	if(currentFrame + 1 < frames.length){
+    	// if(currentFrame + 1 < frames.length){
     		//Think about doing different transitions
     		frames[currentFrame].item.css('display', 'none');
     		frames[++currentFrame].item.css('display', 'block');
-    	}
+    	// }
     };
 
 
 
     function previousFrame(){
-    	if(currentFrame - 1 >= 0){
+    	// if(currentFrame - 1 >= 0){
     		//Think about doing different transitions
     		frames[currentFrame].item.css('display', 'none');
     		frames[--currentFrame].item.css('display', 'block');
-    	}
+    	// }
     };
 
 })( jQuery, window, document );
