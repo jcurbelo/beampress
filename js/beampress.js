@@ -9,6 +9,8 @@
     // Create the defaults once
     var pluginName = 'beampress',
         defaults = {
+            //Repeating all effects going to a prev. Frame 
+            repeatPrev: true,
             maxItems: 100,
             showFrameTransition: function ($el){
                         $el.css('display', 'block');
@@ -428,6 +430,10 @@
             // if(self.currentFrame + 1 < frames.length){
                 //Think about doing different transitions
                 self.frames[self.currentFrame].hide();
+                if(self.options.repeatPrev)
+                    self.framesItems[self.currentFrame].forEach(function (si){
+                        si.showed = false;
+                    });                
                 self.frames[++self.currentFrame].show();
             // }
         }
@@ -438,6 +444,9 @@
             // if(self.currentFrame - 1 >= 0){
                 //Think about doing different transitions
                 self.frames[self.currentFrame].hide();
+                self.framesItems[self.currentFrame].forEach(function (si){
+                    si.showed = false;
+                });
                 self.frames[--self.currentFrame].show();
             // }
         }

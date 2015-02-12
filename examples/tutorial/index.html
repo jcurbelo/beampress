@@ -274,7 +274,23 @@
         <script src="../../js/beampress.js"></script>
         <script>       
             $(document).ready(function(){
-                $("#main-container").beampress();                                
+                $("#main-container").beampress({
+                    showItemTransition: function ($el){
+                        var h = $el.css('height');
+                        $el.css('height', 0);
+                        $el.css('opacity', 0);
+                        $el.animate({
+                            height: h,
+                            opacity: 1
+                        }, 500);
+                    },
+
+                    hideItemTransition: function ($el){
+                        $el.animate({
+                            opacity: 0
+                        }, 500);
+                    }
+                });                                
             });
         </script>
     </body>
