@@ -179,7 +179,8 @@
                 self.firstPerFrame[i] = prevFirstSlide;
 
                 //Hiding current frame
-                frame.hide();
+                $(this).css('display', 'none');
+                // frame.hide();
             });
             //Showing first slide
             self.frames[self.currentFrame].show();
