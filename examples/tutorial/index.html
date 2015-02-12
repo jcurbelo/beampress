@@ -9,8 +9,6 @@
         <link rel="stylesheet" href="css/warsaw.css">
         <script src="../../js/jquery-1.10.2.min.js"></script>
         <script src="../../js/modernizr-2.6.2.min.js"></script>
-        <script src="../../js/jquery.syntaxhighlighter.js"></script>
-        <script type="text/javascript">$.SyntaxHighlighter.init();</script>
     </head>
     <body>
 
@@ -53,7 +51,7 @@
                         </header>
                         <div class="block-content">
                             Wrap all presentation content into a container e.g <i>main-container</i>. This element will contains all the <i>frames</i> and <i>slide-items</i>.
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;div class="main-container"&gt;
                                      &lt;!-- The frames (presentation content) go here --&gt;
                                 &lt;/div&gt;
@@ -66,7 +64,7 @@
                         <header>Defining <i>frames</i></header>
                         <div class="block-content">
                             Frames are defined using the <i>frame</i> class. The flow of the presentation slides will have the order in which the <i>frame</i> elements are defined.
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;div class="main-container"&gt;
                                      &lt;section class="frame"&gt;First Frame&lt;/section&gt;
                                      &lt;section class="frame"&gt;Second Frame&lt;/section&gt;
@@ -96,7 +94,7 @@
                         </header>
                         <div class="block-content">
                             The slides intervals of each 'slide-item' are specified with the <i>data-onslide</i> attr. A 'slide-item' can have one or more intervals (separated by comma). This syntax have the same Beamer's interval notation. Note that if an element doesn't contain this attr will always be visible.
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;section class="frame"&gt;
                                     &lt;h1&gt;I'll be always visible!!!&lt;/h1&gt;
                                     &lt;span data-onslide="1-"&gt;I'll be present from slide 1 to the end.&lt;/span&gt;
@@ -135,7 +133,7 @@
                         </header>
                         <div class="block-content">
                             'Slide-items' css properties can be updated on a specific slide using a 'data-style' attr. This 'data-style' recieves a 'property' : 'value' dictionary e.g data-style="'font-weight':'bold'", which are the rules to be updated on the 'slide-item'. Combining <i>data-onslide</i> and <i>data-style</i> attrs, different slide effects can be done.
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;section class="frame"&gt;
                                     &lt;ul&gt;    
                                         &lt;li data-onslide="1-"&gt; 
@@ -179,7 +177,7 @@
                         </header>
                         <div class="block-content">
                             Custom frame intervals can be defined using 'data-onslide' in the 'frame' element; with this way only the 'slide-items' that are contained into frame intervals are shown.
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;section class="frame" data-onslide="2, 4-6"&gt;
                                     &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
                                     &lt;span data-onslide="1"&gt;I'm never going to be visible :-( &lt;/span&gt;
@@ -214,7 +212,7 @@
                         </header>
                         <div class="block-content">
                             The same frame but with differents slides can be shown using 'data-againframe'. This attr has the following syntax: 'data-againframe=[frame-id] intervals', where <i>intervals</i> have the same format as 'data-onslide' attr. For further information read <a href="http://mirror.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf">Beamer Documentation</a>
-                            <pre class="code language-html">
+                            <pre>
                                 &lt;section id="f-1" class="frame" data-onslide="2, 4-6"&gt;
                                     &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
                                     &lt;span data-onslide="1"&gt;Now i'm going to exists with the first againframe call &lt;/span&gt;

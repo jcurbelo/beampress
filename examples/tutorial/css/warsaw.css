@@ -207,3 +207,10 @@ footer .topic {
     display: block;
     clear: both;
 }
+
+pre {
+  font-size: 14px;
+  /*white-space: inherit;*/
+  line-height: initial;
+  margin-left: -200px;
+}
