@@ -10,26 +10,19 @@
     var pluginName = 'beampress',
         defaults = {
             maxItems: 100,
-            transitions: {
-                frame:{
-                    show: function ($el){
+            showFrameTransition: function ($el){
                         $el.css('display', 'block');
                     },
-                    hide: function ($el){
+            hideFrameTransition: function ($el){
                         $el.css('display', 'none');
-                    }
-                },
-
-                slideItem:{
-                    show: function ($el){
+                    },
+            showItemTransition: function ($el){
                         $el.css('opacity', 100);
                     },
-                    hide: function ($el){
+            hideItemTransition: function ($el){
                         $el.css('opacity', 0);
-                    }
-                },                
-            }
-        };
+                    }                 
+            };
 
 
 
@@ -69,11 +62,13 @@
             this.$el = $el;
         }
 
+        SlideItem.prototype.showed = false;
+
         SlideItem.prototype.hide = function () {
             if(this.styles)
                 this.$el.removeAttr('style');
             else
-                self.options.transitions.slideItem.hide(this.$el);
+                self.options.hideItemTransition(this.$el);
 
             //Checking for videos and audio tags
 
@@ -87,7 +82,7 @@
             if(this.styles)
                 this.$el.css(this.styles);
             else
-                self.options.transitions.slideItem.show(this.$el);
+                self.options.showItemTransition(this.$el);
 
             //Checking for videos and audio tags
             if (this.$el.is('video') || this.$el.is('audio')){
@@ -116,12 +111,12 @@
         Frame.prototype.constructor = Frame; 
 
         Frame.prototype.hide = function () {
-            self.options.transitions.frame.hide(this.$el);
+            self.options.hideFrameTransition(this.$el);
             // this.$el.css('display', 'none');
         };
 
         Frame.prototype.show = function () {
-            self.options.transitions.frame.show(this.$el);
+            self.options.showFrameTransition(this.$el);
             // this.$el.css('display', 'block');
         };
 
@@ -450,7 +445,7 @@
 
         _init();
         setEventHandlers();
-        // console.log(self.options);
+        console.log(self.options);
         console.log(self.frames);
         console.log(self.lastPerFrame);
         console.log(self.firstPerFrame);
