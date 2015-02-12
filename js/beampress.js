@@ -9,8 +9,29 @@
     // Create the defaults once
     var pluginName = 'beampress',
         defaults = {
-            maxItems: 100
+            maxItems: 100,
+            transitions: {
+                frame:{
+                    show: function ($el){
+                        $el.css('display', 'block');
+                    },
+                    hide: function ($el){
+                        $el.css('display', 'none');
+                    }
+                },
+
+                slideItem:{
+                    show: function ($el){
+                        $el.css('opacity', 100);
+                    },
+                    hide: function ($el){
+                        $el.css('opacity', 0);
+                    }
+                },                
+            }
         };
+
+
 
     // The actual plugin constructor
     function Plugin( element, options ) {
@@ -42,15 +63,76 @@
         //Avoiding namespace confusions
         var self = this;
 
+        //Custom 'objects'
+        //Slide objects
+        function SlideItem($el){
+            this.$el = $el;
+        }
+
+        SlideItem.prototype.hide = function () {
+            if(this.styles)
+                this.$el.removeAttr('style');
+            else
+                self.options.transitions.slideItem.hide(this.$el);
+
+            //Checking for videos and audio tags
+
+            if (this.$el.is('video') || this.$el.is('audio')){
+                this.$el.trigger('pause');
+            }                      
+            // this.$el.css('opacity', 0);
+        };
+
+        SlideItem.prototype.show = function () {
+            if(this.styles)
+                this.$el.css(this.styles);
+            else
+                self.options.transitions.slideItem.show(this.$el);
+
+            //Checking for videos and audio tags
+            if (this.$el.is('video') || this.$el.is('audio')){
+                this.$el.trigger('play');
+            }  
+            
+            // this.$el.css('opacity', 100);
+        }
+
+        //Frame objects
+        function Frame($el){
+            this.$el = $el;
+
+            // this.hide = function () {
+            //     this.$el.css('display', 'none');
+            // };
+
+            // this.show = function () {
+            //     this.$el.css('display', 'block');
+            // }; 
+        }
+
+        var F = function () {}; 
+        F.prototype = SlideItem.prototype; 
+        Frame.prototype = new F(); 
+        Frame.prototype.constructor = Frame; 
+
+        Frame.prototype.hide = function () {
+            self.options.transitions.frame.hide(this.$el);
+            // this.$el.css('display', 'none');
+        };
+
+        Frame.prototype.show = function () {
+            self.options.transitions.frame.show(this.$el);
+            // this.$el.css('display', 'block');
+        };        
+
         //Process all presentation's elements
         function _init() {
-
-
 
             $('.frame').each(function (i) {
                 var hasAgainFrame = false,
                     hasOnSlide = ($(this).attr('data-onslide')),
-                    frame = {'item' : $(this)},
+                    frame = new Frame($(this)),
+                    // frame = {'item' : $(this)},
                     intervals = $(this);
                 
                 if ($(this).attr('data-againframe')){
@@ -81,8 +163,8 @@
                 self.framesItems[i] = [];
 
                 //Setting all the 'slide-items'         
-                $(frame.item).find('[data-onslide]').each(function (j) {
-                    var slideItem = {'item' : $(this)};
+                $(frame.$el).find('[data-onslide]').each(function (j) {
+                    var slideItem = new SlideItem($(this));
                     setSlideIntervals(slideItem, $(this), (hasUpperLimit && isOverlayed) ? null : i);
                     // slideItem.styles = undefined;
                     self.framesItems[i].push(slideItem);
@@ -90,17 +172,17 @@
                         slideItem.styles = getStylesDict($(this).attr('data-style'));
                     } else {
                         //Hiding item
-                        $(this).css('opacity', 0);                    
+                        slideItem.hide();                    
                     }                   
                 });
 
                 self.firstPerFrame[i] = prevFirstSlide;
 
                 //Hiding current frame
-                $(this).css('display', 'none');
+                frame.hide();
             });
             //Showing first slide
-            self.frames[self.currentFrame].item.css('display', 'block');
+            self.frames[self.currentFrame].show();
             //Increasing first slide show
             next();
         }
@@ -110,10 +192,10 @@
             return eval("({" + str +  "})");
         }
 
-        //Returns all slideItems given an item (frame selector)
-        function getFrameItems(item){
+        //Returns all slideItems given an $el (frame selector)
+        function getFrameItems($el){
             for (var i = 0; i < self.frames.length; i++) {
-                if(self.frames[i].item === item)
+                if(self.frames[i].$el === $el)
                     return self.framesItems[i];
             };
 
@@ -125,9 +207,9 @@
         function getFrameFromStrId(str){
             var frame = null;
             self.frames.forEach(function (f){
-                if(f.item.attr('id') && f.item.attr('id') == str){
-                    //TODO: Think about objects for doing COPY
-                    frame = {'item' : f.item};
+                if(f.$el.attr('id') && f.$el.attr('id') == str){
+
+                    frame =  new Frame(f.$el);
                     var slideIntervals = [];
                     f.slideIntervals.forEach(function (si){
                         slideIntervals.push({
@@ -274,22 +356,24 @@
                 });
 
                 if (flag){
-                    if(slideItem.styles)
-                         slideItem.item.css(slideItem.styles);
-                    else
-                        slideItem.item.css('opacity', 100);
-                    //Checking for videos and audio tags
-                    if (slideItem.item.is('video') || slideItem.item.is('audio')){
-                        slideItem.item.trigger('play');
-                    }
+                    slideItem.show();
+                    // if(slideItem.styles)
+                    //      slideItem.item.css(slideItem.styles);
+                    // else
+                    //     slideItem.item.css('opacity', 100);
+                    // //Checking for videos and audio tags
+                    // if (slideItem.item.is('video') || slideItem.item.is('audio')){
+                    //     slideItem.item.trigger('play');
+                    // }
                 } else {
-                    if(slideItem.styles)
-                         slideItem.item.removeAttr('style');
-                    else
-                        slideItem.item.css('opacity', 0);
-                    if (slideItem.item.is('video') || slideItem.item.is('audio')){
-                        slideItem.item.trigger('pause');
-                    }
+                    slideItem.hide();
+                    // if(slideItem.styles)
+                    //      slideItem.item.removeAttr('style');
+                    // else
+                    //     slideItem.item.css('opacity', 0);
+                    // if (slideItem.item.is('video') || slideItem.item.is('audio')){
+                    //     slideItem.item.trigger('pause');
+                    // }
                 }
 
 
@@ -299,8 +383,8 @@
         function nextFrame(){
             // if(self.currentFrame + 1 < frames.length){
                 //Think about doing different transitions
-                self.frames[self.currentFrame].item.css('display', 'none');
-                self.frames[++self.currentFrame].item.css('display', 'block');
+                self.frames[self.currentFrame].hide();
+                self.frames[++self.currentFrame].show();
             // }
         }
 
@@ -309,8 +393,8 @@
         function previousFrame(){
             // if(self.currentFrame - 1 >= 0){
                 //Think about doing different transitions
-                self.frames[self.currentFrame].item.css('display', 'none');
-                self.frames[--self.currentFrame].item.css('display', 'block');
+                self.frames[self.currentFrame].hide();
+                self.frames[--self.currentFrame].show();
             // }
         }
 
