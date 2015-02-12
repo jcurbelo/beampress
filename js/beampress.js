@@ -123,7 +123,37 @@
         Frame.prototype.show = function () {
             self.options.transitions.frame.show(this.$el);
             // this.$el.css('display', 'block');
-        };        
+        };
+
+        Frame.prototype.getNextSlide = function (currentSlide) {
+            currentSlide++;
+            if(this.slideIntervals && this.slideIntervals.length)
+                for (var i = currentSlide; i <= this.lastSlide; i++) {
+                    for(var j = 0; j < this.slideIntervals.length; j++){
+                        var si = this.slideIntervals[j];
+                        if(si.lower <= i && (si.upper == -1 || si.upper >= i))
+                            return i;
+                    }
+                    currentSlide = i;
+                };
+
+            return currentSlide;
+        };
+
+        Frame.prototype.getPrevSlide = function (currentSlide) {
+            currentSlide--;
+            if(this.slideIntervals && this.slideIntervals.length)
+                for (var i = currentSlide; i >= this.firstSlide; i--) {
+                    for(var j = 0; j < this.slideIntervals.length; j++){
+                        var si = this.slideIntervals[j];
+                        if(si.lower <= i && (si.upper == -1 || si.upper >= i))
+                            return i;
+                    }
+                    currentSlide = i;
+                };
+
+            return currentSlide;
+        };                 
 
         //Process all presentation's elements
         function _init() {
@@ -180,10 +210,13 @@
 
                 //Hiding current frame
                 $(this).css('display', 'none');
+                frame.firstSlide = self.firstPerFrame[i];
+                frame.lastSlide = self.lastPerFrame[i];
                 // frame.hide();
             });
             //Showing first slide
             self.frames[self.currentFrame].show();
+
             //Increasing first slide show
             next();
         }
@@ -313,7 +346,7 @@
                 nextFrame();
                 self.currentSlide = self.firstPerFrame[self.currentFrame] - 1;
             }
-            self.currentSlide++;
+            self.currentSlide = self.frames[self.currentFrame].getNextSlide(self.currentSlide);
             updateSlideItems();
         }
 
@@ -325,7 +358,7 @@
                 previousFrame();
                 self.currentSlide = self.lastPerFrame[self.currentFrame] + 1;
             }
-            self.currentSlide--;
+            self.currentSlide = self.frames[self.currentFrame].getPrevSlide(self.currentSlide);;
             updateSlideItems();
         }
 
