@@ -65,31 +65,39 @@
         SlideItem.prototype.showed = false;
 
         SlideItem.prototype.hide = function () {
-            if(this.styles)
-                this.$el.removeAttr('style');
-            else
-                self.options.hideItemTransition(this.$el);
+            if(this.showed || this.$el.css('opacity') == '1'){
+                if(this.styles)
+                    this.$el.removeAttr('style');
+                else
+                    self.options.hideItemTransition(this.$el);
 
-            //Checking for videos and audio tags
+                //Checking for videos and audio tags
 
-            if (this.$el.is('video') || this.$el.is('audio')){
-                this.$el.trigger('pause');
-            }                      
-            // this.$el.css('opacity', 0);
+                if (this.$el.is('video') || this.$el.is('audio')){
+                    this.$el.trigger('pause');
+                }                      
+                // this.$el.css('opacity', 0); 
+                this.showed = false;               
+            }
+
         };
 
         SlideItem.prototype.show = function () {
-            if(this.styles)
-                this.$el.css(this.styles);
-            else
-                self.options.showItemTransition(this.$el);
+            if(!this.showed || this.$el.css('opacity') == '0'){
+                if(this.styles)
+                    this.$el.css(this.styles);
+                else
+                    self.options.showItemTransition(this.$el);
 
-            //Checking for videos and audio tags
-            if (this.$el.is('video') || this.$el.is('audio')){
-                this.$el.trigger('play');
-            }  
-            
-            // this.$el.css('opacity', 100);
+                //Checking for videos and audio tags
+                if (this.$el.is('video') || this.$el.is('audio')){
+                    this.$el.trigger('play');
+                }  
+                
+                // this.$el.css('opacity', 100);
+                this.showed = true;                
+            }
+
         }
 
         //Frame objects
@@ -111,12 +119,19 @@
         Frame.prototype.constructor = Frame; 
 
         Frame.prototype.hide = function () {
-            self.options.hideFrameTransition(this.$el);
+            if(this.showed){
+                self.options.hideFrameTransition(this.$el);
+                this.showed = false;
+            }
             // this.$el.css('display', 'none');
         };
 
         Frame.prototype.show = function () {
-            self.options.showFrameTransition(this.$el);
+            if(!this.showed){
+                self.options.showFrameTransition(this.$el);
+                this.showed = true;    
+            }        
+            
             // this.$el.css('display', 'block');
         };
 
@@ -197,7 +212,7 @@
                         slideItem.styles = getStylesDict($(this).attr('data-style'));
                     } else {
                         //Hiding item
-                        slideItem.hide();                    
+                        slideItem.$el.css('opacity', 0);                    
                     }                   
                 });
 
