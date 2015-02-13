@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="../warsaw/css/warsaw.css">
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+    </head>
+    <body>
+
+        <div id="main-container">
+            <section class="frame">
+                <h1>Un ejemplo del minipage</h1>
+                <div class="frame-content">
+                    <div class="hfil">
+                        <div data-onslide="1-" class="minipage" style="width:350px;">
+                            Este es un minipage que supuestamente tiene la mitad del linewidth de ancho. Aqui estoy escribiendo solo para que sea lo suficientemente grande y sea mas de lo que se lleva el minipage.
+                            <div class="block" data-onslide="2-">
+                                <header>
+                                    un bloque en minipage
+                                </header>
+                                <div class="block-content" data-onslide="3-">
+                                    Fijate que se ajusta al tamanno del minipage.
+                                </div>
+                            </div>                  
+                        </div>
+
+                        <div class="minipage" style="width:350px;" data-onslide="4-">
+                            otro minipage. Aqui se pueden poner imágenes, pero no las pongo para no tener que mandarlas.    
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="frame">
+                <h1>Varios minipages</h1>
+                <div class="frame-content">
+                    <div class="center">
+                        <div class="minipage" style="width:220px;" data-onslide="1-">
+                            El primer minipage con un tamanno de 3 cm.
+                            <div class="block" data-onslide="2-">
+                                <header>
+                                    otro bloque
+                                </header>
+                                <div class="block-content">
+                                    na, otro bloque ahi
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hspace" style="width:80px;"></div>
+
+                        <div class="minipage" style="width:220px;" data-onslide="3-">
+                            El segundo minipage con un tamanno de 3 cm
+                            <div class="block">
+                                <div class="block-content">
+                                    Un bloque de ejemplo para que se ajuste
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hspace" style="width:80px;"></div>
+                        
+                        <div class="minipage" style="width:120px;" data-onslide="4-">
+                            El tercer minipage con un tamanno de 2 cm
+                        </div>                    
+                    </div>
+
+                    <div class="block" data-onslide="5-"> 
+                        <div class="block-content">
+                            Ademas, entre cada par de bloques hay un hspace, que es un comando que agrega espacio entre dos elementos cualesquiera.
+                        </div>
+                    </div>                    
+                </div>
+            </section>
+
+            <section class="frame">
+                <h1>Un minipage dentro de otro</h1>
+                <div class="frame-content">
+                    <div class="center">
+                        <div class="hfil">
+                            <div class="minipage" style="width:400px;">
+                                <div class="block" data-onslide="1-">
+                                    <div class="block-content" >
+                                        Bueno, esto es facil
+                                    </div>
+                                </div>
+                                <div class="hfil">
+                                    <div class="minipage" style="width:201px;" data-onslide="2-">
+                                        <div class="block">
+                                            <div class="block-content" >
+                                                 Este es un minipage de 3 cm
+                                            </div>
+                                        </div>
+                                    </div> 
+
+                                    <div class="minipage" style="width:160px;" data-onslide="3-">
+                                        <div class="block">
+                                            <div class="block-content" >
+                                                  y este es de 2 cm
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>                              
+                            </div>
+
+                            <div class="minipage" style="width:200px;">
+                                <div class="block alert" data-onslide="4-">
+                                <header>
+                                    este es un block alert
+                                </header>
+                                    <div class="block-content">
+                                        Aqui hay 3 cm mas, en otro minipage.
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+
+                        <div class="block example" data-onslide="5-">
+                            <header>este es un block example</header>
+                            <div class="block-content">
+                                Y en este frame se usa el comando hfil, que agrega tanto espacio como se pueda entre los elementos que lo rodean.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="f-1" class="frame" data-onslide="2,4">
+                <h1>Probando againframe</h1>
+                <div class="frame-content">
+                    <div class="hfil">
+                        <div class="minipage" style="width:200px">
+                            <div class="block alert" data-onslide="1">
+                                <header>Ojo</header>
+                                <div class="block-content">
+                                    Aparezco en el slide 1
+                                </div>
+                            </div>
+                            <div class="block example" data-onslide="2">
+                                <header>ej</header>
+                                <div class="block-content">
+                                    Aparezco en el slide 2, sin ningun againframe
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="minipage" style="width:200px">
+                            <div class="block" data-onslide="3-">
+                                <header>3 en adelante</header>
+                                <div class="block-content">
+                                    Como dice mi titulo
+                                </div>
+                            </div>
+                            <div class="block" data-onslide="4">
+                                <header>Solo 4</header>
+                                <div class="block-content">
+                                    Slide 4 sin againframe
+                                </div>
+                            </div>                            
+                        </div>                        
+                    </div>
+
+                    <div class="block" data-onslide="5">
+                        <header>Soy del frame 5</header>
+                        <div class="block-content">
+                            Ya lo oyeron
+                        </div>
+                    </div>
+                    <div class="block" data-onslide="6-">
+                        <header>Soy del frame 6 en adelante</header>
+                        <div class="block-content">
+                            Ya lo oyeron
+                            <span data-onslide="7">bueno yo soy del 7</span>
+                        </div>
+                    </div>                    
+                </div>
+
+            </section>
+            <section class="frame" data-againframe="[f-1] 1,5"></section>
+            <section class="frame" data-againframe="[f-1] 6-"></section>
+        </div>
+
+        <script src="../../js/beampress.js"></script>
+        <script>       
+            $(document).ready(function(){
+                $("#main-container").beampress({
+                    showItemTransition: function ($el){
+                        var h = $el.css('height');
+                        $el.css('height', 0);
+                        $el.css('opacity', 0);
+                        $el.animate({
+                            height: h,
+                            opacity: 1
+                        }, 500);
+                    },
+
+                    hideItemTransition: function ($el){
+                        var h = $el.css('height');
+                        $el.animate({
+                            opacity: 0,
+                            height: 0
+                        }, 500, function () {
+                            $el.css('height', h);
+                        });
+                    }
+
+
+                });                                
+            });
+        </script>
+    </body>
+</html>
