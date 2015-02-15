@@ -12,19 +12,22 @@
             //Repeating all effects going to a prev. Frame 
             repeatPrev: true,
             maxItems: 100,
-            showFrameTransition: function ($el){
-                        $el.css('display', 'block');
-                    },
-            hideFrameTransition: function ($el){
-                        $el.css('display', 'none');
-                    },
-            showItemTransition: function ($el){
-                        $el.css('opacity', 100);
-                    },
-            hideItemTransition: function ($el){
-                        $el.css('opacity', 0);
-                    }                 
-            };
+            identity: function ($el, args){
+
+            },
+            hideItem: function ($el, args){
+                $el.css('opacity', 0);
+            },
+            showItem: function ($el, args){
+                $el.css('opacity', 1);
+            },
+            hideFrame: function ($el, args){
+                $el.css('display', 'none');
+            },
+            showFrame: function ($el, args){
+                $el.css('display', 'block');
+            }               
+        };
 
 
 
@@ -66,12 +69,24 @@
 
         SlideItem.prototype.showed = false;
 
+        //Changes item's state according to specified animation function
+        //and slide interval
+        SlideItem.prototype.slide = function($slide){
+            //Getting current function for a given slide (inteval)
+            var keyValue =  SlideItem.prototype.slides[$slide],
+                func = keyValue.func,
+                args = $.extend({}, {$el:this.$el}, keyValue.args);
+
+            return func(args);
+
+        };
+
         SlideItem.prototype.hide = function () {
             if(this.showed || this.$el.css('opacity') == '1'){
                 if(this.styles)
                     this.$el.removeAttr('style');
                 else
-                    self.options.hideItemTransition(this.$el);
+                    self.options.hideItem(this.$el);
 
                 //Checking for videos and audio tags
 
@@ -89,7 +104,7 @@
                 if(this.styles)
                     this.$el.css(this.styles);
                 else
-                    self.options.showItemTransition(this.$el);
+                    self.options.showItem(this.$el);
 
                 //Checking for videos and audio tags
                 if (this.$el.is('video') || this.$el.is('audio')){
@@ -122,7 +137,7 @@
 
         Frame.prototype.hide = function () {
             if(this.showed){
-                self.options.hideFrameTransition(this.$el);
+                self.options.hideFrame(this.$el);
                 this.showed = false;
             }
             // this.$el.css('display', 'none');
@@ -130,7 +145,7 @@
 
         Frame.prototype.show = function () {
             if(!this.showed){
-                self.options.showFrameTransition(this.$el);
+                self.options.showFrame(this.$el);
                 this.showed = true;    
             }        
             
