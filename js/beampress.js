@@ -19,7 +19,7 @@
                 $el.css('opacity', 0);
             },
             showItem: function ($el, args){
-                $el.css('opacity', 1);
+                $el.css('opacity', 100);
             },
             hideFrame: function ($el, args){
                 $el.css('display', 'none');
@@ -27,9 +27,26 @@
             showFrame: function ($el, args){
                 $el.css('display', 'block');
             }               
-        };
+        },
 
+        //Helpers
+        helpers = {
+            //Gets the value of obj given a sequence of properties, 
+            //if some property is undefined then 'def' is returned
+            //Ex: getValRec(post, [author, company], 'Home') is the 
+            //equivalent to try: post.author.company
+            getValRec : function (obj, keys, def) {
+                var i = 0,
+                    prop = keys[i];
 
+                while(obj.hasOwnProperty(prop)){
+                    if(keys.length == ++i) return obj[prop];
+                    obj = obj[prop];
+                    prop = keys[i];
+                }
+                return def;
+            }
+    };
 
     // The actual plugin constructor
     function Plugin( element, options ) {
@@ -71,13 +88,16 @@
 
         //Changes item's state according to specified animation function
         //and slide interval
-        SlideItem.prototype.slide = function($slide){
-            //Getting current function for a given slide (inteval)
-            var keyValue =  SlideItem.prototype.slides[$slide],
-                func = keyValue.func,
-                args = $.extend({}, {$el:this.$el}, keyValue.args);
+        SlideItem.prototype.slide = function(slide){
+            //Getting current function for a given slide (interval)
+            // console.log(this.slides);
+            var keyValue =  this.slides[slide - 1],
 
-            return func(args);
+                func = helpers.getValRec(keyValue, [slide, 'func'], 'identity'),
+                args = helpers.getValRec(keyValue, [slide, 'args'], {});
+
+            //If no function is defined, then the 'identity'  is used
+            return self.options[func](this.$el, args);
 
         };
 
@@ -135,6 +155,13 @@
         Frame.prototype = new F(); 
         Frame.prototype.constructor = Frame; 
 
+        Frame.prototype.update = function (slide){
+            // console.log(this.items);
+            this.items.forEach(function (item) {
+                 item.slide(slide);
+            });
+        };
+
         Frame.prototype.hide = function () {
             if(this.showed){
                 self.options.hideFrame(this.$el);
@@ -186,35 +213,36 @@
         function _init() {
 
             $('.frame').each(function (i) {
-                var hasAgainFrame = false,
-                    hasOnSlide = ($(this).attr('data-onslide')),
-                    frame = new Frame($(this)),
-                    // frame = {'item' : $(this)},
-                    intervals = $(this);
+                var frame = new Frame($(this));
+                // var hasAgainFrame = false,
+                //     hasOnSlide = ($(this).attr('data-onslide')),
+                //     frame = new Frame($(this)),
+                //     // frame = {'item' : $(this)},
+                //     intervals = $(this);
                 
-                if ($(this).attr('data-againframe')){
-                    hasAgainFrame = true;
-                    var reg = new RegExp(/\s*\[(.*)\]\s*(.*)/),
-                        matches = reg.exec($(this).attr('data-againframe')),
-                        id = matches[1];
-                    intervals = matches[2];               
-                    frame = getFrameFromStrId(id);                              
-                }
+                // if ($(this).attr('data-againframe')){
+                //     hasAgainFrame = true;
+                //     var reg = new RegExp(/\s*\[(.*)\]\s*(.*)/),
+                //         matches = reg.exec($(this).attr('data-againframe')),
+                //         id = matches[1];
+                //     intervals = matches[2];               
+                //     frame = getFrameFromStrId(id);                              
+                // }
 
                 //Has slides contrains 
-                var isOverlayed = hasOnSlide || hasAgainFrame;
+                // var isOverlayed = hasOnSlide || hasAgainFrame;
 
-                var hasUpperLimit = true;
-                self.lastPerFrame[i] = 1;
+                // var hasUpperLimit = true;
+                // self.lastPerFrame[i] = 1;
                 self.firstPerFrame[i] = 1;
-                var prevFirstSlide = 1;
-                frame.slideIntervals = [];
+                // var prevFirstSlide = 1;
+                // frame.slideIntervals = [];
 
-                if(isOverlayed){
-                    self.firstPerFrame[i] = self.options.maxItems;
-                    hasUpperLimit = setSlideIntervals(frame, intervals, i);
-                    prevFirstSlide = self.firstPerFrame[i];    
-                }
+                // if(isOverlayed){
+                //     self.firstPerFrame[i] = self.options.maxItems;
+                //     hasUpperLimit = setSlideIntervals(frame, intervals, i);
+                //     prevFirstSlide = self.firstPerFrame[i];    
+                // }
 
                 self.frames[i] = frame;
                 self.framesItems[i] = [];
@@ -222,23 +250,27 @@
                 //Setting all the 'slide-items'         
                 $(frame.$el).find('[data-onslide]').each(function (j) {
                     var slideItem = new SlideItem($(this));
-                    setSlideIntervals(slideItem, $(this), (hasUpperLimit && isOverlayed) ? null : i);
+                    // setSlideIntervals(slideItem, $(this), (hasUpperLimit && isOverlayed) ? null : i);
+                    setSlides(slideItem, i);
                     // slideItem.styles = undefined;
                     self.framesItems[i].push(slideItem);
-                    if ($(this).attr('data-style')){
-                        slideItem.styles = getStylesDict($(this).attr('data-style'));
-                    } else {
-                        //Hiding item
-                        slideItem.$el.css('opacity', 0);                    
-                    }                   
+                    // if ($(this).attr('data-style')){
+                    //     slideItem.styles = getStylesDict($(this).attr('data-style'));
+                    // } else {
+                    //     //Hiding item
+                    //     slideItem.$el.css('opacity', 0);                    
+                    // }                   
                 });
 
-                self.firstPerFrame[i] = prevFirstSlide;
+                // self.firstPerFrame[i] = prevFirstSlide;
+
+                //Referencing all the frame's items within the actual frame object
+                frame.items = self.framesItems[i];
 
                 //Hiding current frame
                 $(this).css('display', 'none');
-                frame.firstSlide = self.firstPerFrame[i];
-                frame.lastSlide = self.lastPerFrame[i];
+                // frame.firstSlide = self.firstPerFrame[i];
+                // frame.lastSlide = self.lastPerFrame[i];
                 // frame.hide();
             });
             //Showing first slide
@@ -321,6 +353,16 @@
         //     return hasUpperLimit;
         // }
 
+        //Sets the animation functions to all slideItem's interval
+        function setSlides(slideItem, frameIndex){
+            // console.log(slideItem.$el.attr('data-onslide'));
+            var slidesJSON = slideItem.$el.attr('data-onslide'),
+                slides = $.parseJSON(slidesJSON);
+
+            slideItem.slides = slides;
+            self.lastPerFrame[frameIndex] = slides.length;
+        }
+
         //Returns the slide intervals given a selector 
         //or an array of slides (bag)
         function setSlideIntervals(obj, bag, frameIndex){
@@ -365,28 +407,39 @@
             return hasUpperLimit;               
         }
 
+        function update(){
+            var frame = self.frames[self.currentFrame];
+            frame.update(self.currentSlide);
+        }
+
         //Show all slide items that are 'present' on
         //next slide 
         function next(){
             if (self.lastPerFrame[self.currentFrame] == self.currentSlide){
                 if(self.currentFrame + 1 >= self.frames.length) return;
                 nextFrame();
-                self.currentSlide = self.firstPerFrame[self.currentFrame] - 1;
+                // self.currentSlide = self.firstPerFrame[self.currentFrame] - 1;
+                self.currentSlide = 0;
             }
-            self.currentSlide = self.frames[self.currentFrame].getNextSlide(self.currentSlide);
-            updateSlideItems();
+            self.currentSlide++;
+            // self.currentSlide = self.frames[self.currentFrame].getNextSlide(self.currentSlide);
+            // updateSlideItems();
+            update();
         }
 
         //Show all slide items that are 'present' on
         //previous slide 
         function previous(){
-            if (self.currentSlide == self.firstPerFrame[self.currentFrame]){
+            if(self.currentSlide == 1){
+            // if (self.currentSlide == self.firstPerFrame[self.currentFrame]){
                 if(self.currentFrame - 1 < 0) return;
                 previousFrame();
                 self.currentSlide = self.lastPerFrame[self.currentFrame] + 1;
             }
-            self.currentSlide = self.frames[self.currentFrame].getPrevSlide(self.currentSlide);;
-            updateSlideItems();
+            self.currentSlide--;
+            // self.currentSlide = self.frames[self.currentFrame].getPrevSlide(self.currentSlide);;
+            // updateSlideItems();
+            update();
         }
 
         //Shows all slide items present on current slide
