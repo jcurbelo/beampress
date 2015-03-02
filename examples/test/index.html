@@ -20,18 +20,18 @@
                         <div data-onslide='["1", "2", "3", "4"]' class="minipage" style="width:350px;">
                             Este es un minipage que supuestamente tiene la mitad del linewidth de ancho. Aqui estoy escribiendo solo para que sea lo suficientemente grande y sea mas de lo que se lleva el minipage.
                             <!-- data-onslide="2-" -->
-                            <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "showItem", "args": {}}}, "3", "4"]'>
+                            <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, {"2":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "3", "4"]'>
                                 <header>
                                     un bloque en minipage
                                 </header>
                                 <!-- data-onslide="3-" -->
-                                <div class="block-content" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "showItem", "args": {}}}, "4"]'>
+                                <div class="block-content" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", {"3":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "4"]'>
                                     Fijate que se ajusta al tamanno del minipage.
                                 </div>
                             </div>                  
                         </div>
                         <!-- data-onslide="4-" -->
-                        <div class="minipage" style="width: 350px;" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "hideItem", "args": {}}}, {"4":{"func": "showItem", "args": {}}}]'>
+                        <div class="minipage" style="width: 350px;" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", {"4":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}]'>
                             otro minipage. Aqui se pueden poner imágenes, pero no las pongo para no tener que mandarlas.    
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                         <div class="minipage" style="width: 220px;" data-onslide='["1","2","3","4","5"]'>
                             El primer minipage con un tamanno de "3" cm.
                             <!-- data-onslide="2-" -->
-                            <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "showItem", "args": {}}}, "3", "4", "5"]'>
+                            <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, {"2":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "3", "4", "5"]'>
                                 <header>
                                     otro bloque
                                 </header>
@@ -58,7 +58,7 @@
 
                         <div class="hspace" style="width:80px;"></div>
                         <!-- data-onslide="3-" -->
-                        <div class="minipage" style="width: 220px;" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "showItem", "args": {}}}, "4", "5"]'>
+                        <div class="minipage" style="width: 220px;" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", {"3":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "4", "5"]'>
                             El segundo minipage con un tamanno de "3" cm
                             <div class="block">
                                 <div class="block-content">
@@ -69,12 +69,12 @@
 
                         <div class="hspace" style="width:80px;"></div>
                         <!-- data-onslide="4-" -->
-                        <div class="minipage" style="width: 120px;" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "hideItem", "args": {}}}, {"4":{"func": "showItem", "args": {}}}, "5"]'>
+                        <div class="minipage" style="width: 120px;" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", {"4":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "5"]'>
                             El tercer minipage con un tamanno de "2" cm
                         </div>                    
                     </div>
                     <!-- data-onslide="5-" -->
-                    <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "hideItem", "args": {}}}, {"4":{"func": "hideItem", "args": {}}}, {"5":{"func": "showItem", "args": {}}}]'> 
+                    <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", "4", {"5":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}]'> 
                         <div class="block-content">
                             Ademas, entre cada par de bloques hay un hspace, que es un comando que agrega espacio entre dos elementos cualesquiera.
                         </div>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="hfil">
                                     <!-- data-onslide="2-" -->
-                                    <div class="minipage" style="width:201px;" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "showItem", "args": {}}}, "3", "4", "5"]'>
+                                    <div class="minipage" style="width:201px;" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, {"2":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "3", "4", "5"]'>
                                         <div class="block">
                                             <div class="block-content" >
                                                  Este es un minipage de "3" cm
@@ -104,7 +104,7 @@
                                         </div>
                                     </div> 
                                     <!-- data-onslide="3-" -->
-                                    <div class="minipage" style="width: 160px;" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "showItem", "args": {}}}, "4", "5"]'>
+                                    <div class="minipage" style="width: 160px;" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", {"3":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "4", "5"]'>
                                         <div class="block">
                                             <div class="block-content" >
                                                   y este es de "2" cm
@@ -115,7 +115,7 @@
                             </div>
                             <!-- data-onslide="4-" -->
                             <div class="minipage" style="width: 200px;">
-                                <div class="block alert" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "hideItem", "args": {}}}, {"4":{"func": "showItem", "args": {}}}, "5"]'>
+                                <div class="block alert" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", {"4":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "5"]'>
                                 <header>
                                     este es un block alert
                                 </header>
@@ -127,7 +127,7 @@
                         </div>
 
                         <!-- data-onslide="5-" -->
-                        <div class="block example" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, "2", "3", {"4":{"func": "hideItem", "args": {}}}, {"5":{"func": "showItem", "args": {}}}]'>
+                        <div class="block example" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", "4", {"5":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}]'>
                             <header>este es un block example</header>
                             <div class="block-content">
                                 Y en este frame se usa el comando hfil, que agrega tanto espacio como se pueda entre los elementos que lo rodean.
@@ -143,13 +143,15 @@
                 <div class="frame-content">
                     <div class="hfil">
                         <div class="minipage" style="width: 200px">
-                            <div class="block alert" data-onslide='[{"1":{"func": "showItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, "3", "4", "5", "6", "7"]'>
+                            <!-- data-onslide="1" -->
+                            <div class="block alert" data-onslide='[{"1":{"next": {"func":"showItem", "args": {}}}}, {"2":{"next": {"func":"hideItem", "args": {}} ,"prev" :{"func": "showItem", "args": {}}}}, "3", "4", "5", "6", "7"]'>
                                 <header>Ojo</header>
                                 <div class="block-content">
                                     Aparezco en el slide "1"
                                 </div>
                             </div>
-                            <div class="block example" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "showItem", "args": {}}}, {"3":{"func": "hideItem", "args": {}}}, "4", "5", "6", "7"]'>
+                            <!-- data-onslide="2" -->
+                            <div class="block example" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, {"2":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, {"3":{"next": {"func":"hideItem", "args": {}} ,"prev" :{"func": "showItem", "args": {}}}}, "4", "5", "6", "7"]'>
                                 <header>ej</header>
                                 <div class="block-content">
                                     Aparezco en el slide "2", sin ningun againframe
@@ -157,13 +159,15 @@
                             </div>                            
                         </div>
                         <div class="minipage" style="width: 200px">
-                            <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, {"2":{"func": "hideItem", "args": {}}}, {"3":{"func": "showItem", "args": {}}}, "4", "5", "6", "7"]'>
+                            <!-- data-onslide="3-" -->
+                            <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", {"3":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "4", "5", "6", "7"]'>
                                 <header>"3" en adelante</header>
                                 <div class="block-content">
                                     Como dice mi titulo
                                 </div>
                             </div>
-                            <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, "2", {"3":{"func": "hideItem", "args": {}}}, {"4":{"func": "showItem", "args": {}}}, {"5":{"func": "hideItem", "args": {}}}, "6", "7"]'>
+                            <!-- data-onslide="4" -->
+                            <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", {"4":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, {"5":{"next": {"func":"hideItem", "args": {}} ,"prev" :{"func": "showItem", "args": {}}}}, "6", "7"]'>
                                 <header>Solo "4"</header>
                                 <div class="block-content">
                                     Slide "4" sin againframe
@@ -171,18 +175,18 @@
                             </div>                            
                         </div>                        
                     </div>
-
-                    <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, "2", "3", {"4":{"func": "hideItem", "args": {}}}, {"5":{"func": "showItem", "args": {}}}, {"6":{"func": "hideItem", "args": {}}}, "7"]'>
+                    <!-- data-onslide="5" -->
+                    <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", "4", {"5":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, {"6":{"next": {"func":"hideItem", "args": {}} ,"prev" :{"func": "showItem", "args": {}}}}, "7"]'>
                         <header>Soy del slide "5"</header>
                         <div class="block-content">
                             Ya lo oyeron
                         </div>
                     </div>
-                    <div class="block" data-onslide='[{"1":{"func": "hideItem", "args": {}}}, "2", "3", "4", {"5":{"func": "hideItem", "args": {}}}, {"6":{"func": "showItem", "args": {}}}, "7"]'>
+                    <div class="block" data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", "4", "5", {"6":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}, "7"]'>
                         <header>Soy del slide "6" en adelante</header>
                         <div class="block-content">
                             Ya lo oyeron
-                            <span data-onslide='[{"1":{"func": "hideItem", "args": {}}}, "2", "3", "4", "5", {"6":{"func": "hideItem", "args": {}}}, {"7":{"func": "showItem", "args": {}}}]'>bueno yo soy del "7"</span>
+                            <span data-onslide='[{"1":{"next": {"func":"hideItem", "args": {}}}}, "2", "3", "4", "5", "6", {"7":{"next": {"func":"showItem", "args": {}} ,"prev" :{"func": "hideItem", "args": {}}}}]'>bueno yo soy del "7"</span>
                         </div>
                     </div>                    
                 </div>

@@ -93,61 +93,73 @@
             // console.log(this.slides);
             var keyValue =  this.slides[slide - 1],
 
-                func = helpers.getValRec(keyValue, [slide, 'func'], 'identity'),
-                args = helpers.getValRec(keyValue, [slide, 'args'], {});
+                func = helpers.getValRec(keyValue, [slide, 'next', 'func'], 'identity'),
+                args = helpers.getValRec(keyValue, [slide, 'next', 'args'], {});
 
             //If no function is defined, then the 'identity'  is used
             return self.options[func](this.$el, args);
 
         };
 
-        SlideItem.prototype.hide = function () {
-            if(this.showed || this.$el.css('opacity') == '1'){
-                if(this.styles)
-                    this.$el.removeAttr('style');
-                else
-                    self.options.hideItem(this.$el);
+        //Changes item's state according to specified 'prev' animation function,
+        //equivalent to 'inverse animation function'
+        SlideItem.prototype.prevSlide = function(slide){
+            if(this.slides[slide-1] === undefined){
+                console.log('-----------------');
+                console.log(this);
+                console.log(self.currentSlide);
+                console.log(self.currentFrame);
 
-                //Checking for videos and audio tags
-
-                if (this.$el.is('video') || this.$el.is('audio')){
-                    this.$el.trigger('pause');
-                }                      
-                // this.$el.css('opacity', 0); 
-                this.showed = false;               
             }
+            var keyValue =  this.slides[slide - 1],
 
-        };
+                func = helpers.getValRec(keyValue, [slide, 'prev', 'func'], 'identity'),
+                args = helpers.getValRec(keyValue, [slide, 'prev', 'args'], {});
 
-        SlideItem.prototype.show = function () {
-            if(!this.showed || this.$el.css('opacity') == '0'){
-                if(this.styles)
-                    this.$el.css(this.styles);
-                else
-                    self.options.showItem(this.$el);
+            //If no function is defined, then the 'identity'  is used
+            return self.options[func](this.$el, args);
 
-                //Checking for videos and audio tags
-                if (this.$el.is('video') || this.$el.is('audio')){
-                    this.$el.trigger('play');
-                }  
+        };        
+
+        // SlideItem.prototype.hide = function () {
+        //     if(this.showed || this.$el.css('opacity') == '1'){
+        //         if(this.styles)
+        //             this.$el.removeAttr('style');
+        //         else
+        //             self.options.hideItem(this.$el);
+
+        //         //Checking for videos and audio tags
+
+        //         if (this.$el.is('video') || this.$el.is('audio')){
+        //             this.$el.trigger('pause');
+        //         }                      
+        //         // this.$el.css('opacity', 0); 
+        //         this.showed = false;               
+        //     }
+
+        // };
+
+        // SlideItem.prototype.show = function () {
+        //     if(!this.showed || this.$el.css('opacity') == '0'){
+        //         if(this.styles)
+        //             this.$el.css(this.styles);
+        //         else
+        //             self.options.showItem(this.$el);
+
+        //         //Checking for videos and audio tags
+        //         if (this.$el.is('video') || this.$el.is('audio')){
+        //             this.$el.trigger('play');
+        //         }  
                 
-                // this.$el.css('opacity', 100);
-                this.showed = true;                
-            }
+        //         // this.$el.css('opacity', 100);
+        //         this.showed = true;                
+        //     }
 
-        }
+        // };
 
         //Frame objects
         function Frame($el){
             this.$el = $el;
-
-            // this.hide = function () {
-            //     this.$el.css('display', 'none');
-            // };
-
-            // this.show = function () {
-            //     this.$el.css('display', 'block');
-            // }; 
         }
 
         var F = function () {}; 
@@ -159,6 +171,12 @@
             // console.log(this.items);
             this.items.forEach(function (item) {
                  item.slide(slide);
+            });
+        };
+
+        Frame.prototype.updatePrevious = function (slide){
+            this.items.forEach(function (item) {
+                 item.prevSlide(slide);
             });
         };
 
@@ -214,68 +232,26 @@
 
             $('.frame').each(function (i) {
                 var frame = new Frame($(this));
-                // var hasAgainFrame = false,
-                //     hasOnSlide = ($(this).attr('data-onslide')),
-                //     frame = new Frame($(this)),
-                //     // frame = {'item' : $(this)},
-                //     intervals = $(this);
-                
-                // if ($(this).attr('data-againframe')){
-                //     hasAgainFrame = true;
-                //     var reg = new RegExp(/\s*\[(.*)\]\s*(.*)/),
-                //         matches = reg.exec($(this).attr('data-againframe')),
-                //         id = matches[1];
-                //     intervals = matches[2];               
-                //     frame = getFrameFromStrId(id);                              
-                // }
-
-                //Has slides contrains 
-                // var isOverlayed = hasOnSlide || hasAgainFrame;
-
-                // var hasUpperLimit = true;
-                // self.lastPerFrame[i] = 1;
                 self.firstPerFrame[i] = 1;
-                // var prevFirstSlide = 1;
-                // frame.slideIntervals = [];
-
-                // if(isOverlayed){
-                //     self.firstPerFrame[i] = self.options.maxItems;
-                //     hasUpperLimit = setSlideIntervals(frame, intervals, i);
-                //     prevFirstSlide = self.firstPerFrame[i];    
-                // }
-
                 self.frames[i] = frame;
                 self.framesItems[i] = [];
 
                 //Setting all the 'slide-items'         
                 $(frame.$el).find('[data-onslide]').each(function (j) {
                     var slideItem = new SlideItem($(this));
-                    // setSlideIntervals(slideItem, $(this), (hasUpperLimit && isOverlayed) ? null : i);
                     setSlides(slideItem, i);
-                    // slideItem.styles = undefined;
-                    self.framesItems[i].push(slideItem);
-                    // if ($(this).attr('data-style')){
-                    //     slideItem.styles = getStylesDict($(this).attr('data-style'));
-                    // } else {
-                    //     //Hiding item
-                    //     slideItem.$el.css('opacity', 0);                    
-                    // }                   
+                    self.framesItems[i].push(slideItem);                  
                 });
 
-                // self.firstPerFrame[i] = prevFirstSlide;
 
                 //Referencing all the frame's items within the actual frame object
                 frame.items = self.framesItems[i];
 
                 //Hiding current frame
                 $(this).css('display', 'none');
-                // frame.firstSlide = self.firstPerFrame[i];
-                // frame.lastSlide = self.lastPerFrame[i];
-                // frame.hide();
             });
             //Showing first slide
             self.frames[self.currentFrame].show();
-
             //Increasing first slide show
             next();
         }
@@ -315,43 +291,6 @@
             return frame;
         }
 
-        
-        // function setFrameSlideIntervals(obj, intervals, frameIndex){
-        //     var slideIntervals = [];
-        //     var hasUpperLimit = true;
-        //     intervals = intervals.split(',');
-        //     var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/);
-        //     intervals.forEach(function (slide){
-        //         var interval = {};
-        //         var matches = reg.exec(slide);
-
-        //         interval.lower = matches[1] || 0;
-        //         //Only one slide
-        //         if(matches[2] == undefined){
-        //             interval.upper = matches[1] || -1;
-        //         } else if (matches[3]){
-        //             interval.upper = matches[3];
-        //         } else {
-        //             interval.upper = -1;
-        //             hasUpperLimit = false;
-        //         }
-        //         var u = interval.upper,
-        //             l = interval.lower,
-        //             lpf = self.lastPerFrame[frameIndex],
-        //             fpf = self.firstPerFrame[frameIndex];
-
-        //         //Getting max interval
-        //         self.lastPerFrame[frameIndex] = Math.max(Math.max(u, l), lpf);
-        //         //Getting min interbal
-        //         self.firstPerFrame[frameIndex] = Math.min(l, fpf);
-                
-        //         slideIntervals.push(interval);            
-
-        //     });
-
-        //     self.frames[frameIndex].slideIntervals = slideIntervals;
-        //     return hasUpperLimit;
-        // }
 
         //Sets the animation functions to all slideItem's interval
         function setSlides(slideItem, frameIndex){
@@ -412,18 +351,20 @@
             frame.update(self.currentSlide);
         }
 
+        function updatePrevious(){
+            var frame = self.frames[self.currentFrame];
+            frame.updatePrevious(self.currentSlide);
+        }
+
         //Show all slide items that are 'present' on
         //next slide 
         function next(){
             if (self.lastPerFrame[self.currentFrame] == self.currentSlide){
                 if(self.currentFrame + 1 >= self.frames.length) return;
                 nextFrame();
-                // self.currentSlide = self.firstPerFrame[self.currentFrame] - 1;
                 self.currentSlide = 0;
             }
             self.currentSlide++;
-            // self.currentSlide = self.frames[self.currentFrame].getNextSlide(self.currentSlide);
-            // updateSlideItems();
             update();
         }
 
@@ -431,14 +372,13 @@
         //previous slide 
         function previous(){
             if(self.currentSlide == 1){
-            // if (self.currentSlide == self.firstPerFrame[self.currentFrame]){
                 if(self.currentFrame - 1 < 0) return;
                 previousFrame();
                 self.currentSlide = self.lastPerFrame[self.currentFrame] + 1;
+            } else { 
+                updatePrevious();
             }
             self.currentSlide--;
-            // self.currentSlide = self.frames[self.currentFrame].getPrevSlide(self.currentSlide);;
-            // updateSlideItems();
             update();
         }
 
@@ -471,23 +411,8 @@
 
                 if (flag){
                     slideItem.show();
-                    // if(slideItem.styles)
-                    //      slideItem.item.css(slideItem.styles);
-                    // else
-                    //     slideItem.item.css('opacity', 100);
-                    // //Checking for videos and audio tags
-                    // if (slideItem.item.is('video') || slideItem.item.is('audio')){
-                    //     slideItem.item.trigger('play');
-                    // }
                 } else {
                     slideItem.hide();
-                    // if(slideItem.styles)
-                    //      slideItem.item.removeAttr('style');
-                    // else
-                    //     slideItem.item.css('opacity', 0);
-                    // if (slideItem.item.is('video') || slideItem.item.is('audio')){
-                    //     slideItem.item.trigger('pause');
-                    // }
                 }
 
 
@@ -495,28 +420,24 @@
         }
 
         function nextFrame(){
-            // if(self.currentFrame + 1 < frames.length){
-                //Think about doing different transitions
-                self.frames[self.currentFrame].hide();
-                if(self.options.repeatPrev)
-                    self.framesItems[self.currentFrame].forEach(function (si){
-                        si.showed = false;
-                    });                
-                self.frames[++self.currentFrame].show();
-            // }
+            self.frames[self.currentFrame].hide();
+            if(self.options.repeatPrev)
+                self.framesItems[self.currentFrame].forEach(function (si){
+                    si.showed = false;
+                });                
+            self.frames[++self.currentFrame].show();
         }
 
 
 
         function previousFrame(){
-            // if(self.currentFrame - 1 >= 0){
-                //Think about doing different transitions
-                self.frames[self.currentFrame].hide();
-                self.framesItems[self.currentFrame].forEach(function (si){
-                    si.showed = false;
-                });
-                self.frames[--self.currentFrame].show();
-            // }
+
+            self.frames[self.currentFrame].hide();
+            self.framesItems[self.currentFrame].forEach(function (si){
+                si.showed = false;
+            });
+            self.frames[--self.currentFrame].show();
+
         }
 
 
