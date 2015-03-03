@@ -26,7 +26,17 @@
             },
             showFrame: function ($el, args){
                 $el.css('display', 'block');
-            }               
+            },
+            slowHideItem: function ($el, args){
+                var args = {'opacity': 0},
+                    speed = 'slow';
+                $el.animate(args, speed);
+            },
+            slowShowItem: function ($el, args){
+                var args = {'opacity': 1},
+                    speed = 'slow';
+                $el.animate(args, speed);
+            }                            
         },
 
         //Helpers
@@ -80,8 +90,10 @@
 
         //Custom 'objects'
         //Slide objects
-        function SlideItem($el){
+        function SlideItem($el, fSlide, lSlide){
             this.$el = $el;
+            var slides = Array(lSlide - fSlide + 1);
+            this.slides = $.map(slides, function (el, i) {return '' + (i + 1);});
         }
 
         SlideItem.prototype.showed = false;
@@ -104,13 +116,6 @@
         //Changes item's state according to specified 'prev' animation function,
         //equivalent to 'inverse animation function'
         SlideItem.prototype.prevSlide = function(slide){
-            if(this.slides[slide-1] === undefined){
-                console.log('-----------------');
-                console.log(this);
-                console.log(self.currentSlide);
-                console.log(self.currentFrame);
-
-            }
             var keyValue =  this.slides[slide - 1],
 
                 func = helpers.getValRec(keyValue, [slide, 'prev', 'func'], 'identity'),
@@ -120,42 +125,6 @@
             return self.options[func](this.$el, args);
 
         };        
-
-        // SlideItem.prototype.hide = function () {
-        //     if(this.showed || this.$el.css('opacity') == '1'){
-        //         if(this.styles)
-        //             this.$el.removeAttr('style');
-        //         else
-        //             self.options.hideItem(this.$el);
-
-        //         //Checking for videos and audio tags
-
-        //         if (this.$el.is('video') || this.$el.is('audio')){
-        //             this.$el.trigger('pause');
-        //         }                      
-        //         // this.$el.css('opacity', 0); 
-        //         this.showed = false;               
-        //     }
-
-        // };
-
-        // SlideItem.prototype.show = function () {
-        //     if(!this.showed || this.$el.css('opacity') == '0'){
-        //         if(this.styles)
-        //             this.$el.css(this.styles);
-        //         else
-        //             self.options.showItem(this.$el);
-
-        //         //Checking for videos and audio tags
-        //         if (this.$el.is('video') || this.$el.is('audio')){
-        //             this.$el.trigger('play');
-        //         }  
-                
-        //         // this.$el.css('opacity', 100);
-        //         this.showed = true;                
-        //     }
-
-        // };
 
         //Frame objects
         function Frame($el){
@@ -233,13 +202,22 @@
             $('.frame').each(function (i) {
                 var frame = new Frame($(this));
                 self.firstPerFrame[i] = 1;
+                self.lastPerFrame[i] = 1;
                 self.frames[i] = frame;
                 self.framesItems[i] = [];
 
+                //Updating frame intervals
+                $(frame.$el).find('[data-onslide]').each(function (j) {
+                    updateFrameIntervals($(this), i);                  
+                });
+
+                var first = self.firstPerFrame[i],
+                    last = self.lastPerFrame[i];
+
                 //Setting all the 'slide-items'         
                 $(frame.$el).find('[data-onslide]').each(function (j) {
-                    var slideItem = new SlideItem($(this));
-                    setSlides(slideItem, i);
+                    var slideItem = new SlideItem($(this), first, last);
+                    setSlides(slideItem);
                     self.framesItems[i].push(slideItem);                  
                 });
 
@@ -254,96 +232,76 @@
             self.frames[self.currentFrame].show();
             //Increasing first slide show
             next();
-        }
-
-        function getStylesDict(str){
-            //TODO: Check 'str'
-            return eval("({" + str +  "})");
-        }
-
-        //Returns all slideItems given an $el (frame selector)
-        function getFrameItems($el){
-            for (var i = 0; i < self.frames.length; i++) {
-                if(self.frames[i].$el === $el)
-                    return self.framesItems[i];
-            };
-
-            return null;
-        }   
-
-        //Returns a new copy of the frame that
-        //has 'str' Id
-        function getFrameFromStrId(str){
-            var frame = null;
-            self.frames.forEach(function (f){
-                if(f.$el.attr('id') && f.$el.attr('id') == str){
-
-                    frame =  new Frame(f.$el);
-                    var slideIntervals = [];
-                    f.slideIntervals.forEach(function (si){
-                        slideIntervals.push({
-                            'upper' : si.upper,
-                            'lower' : si.lower});
-                    });
-                    frame.slideIntervals = slideIntervals;
-                }
-            });
-            return frame;
-        }
+        } 
 
 
         //Sets the animation functions to all slideItem's interval
-        function setSlides(slideItem, frameIndex){
-            // console.log(slideItem.$el.attr('data-onslide'));
-            var slidesJSON = slideItem.$el.attr('data-onslide'),
-                slides = $.parseJSON(slidesJSON);
+        // function setSlides(slideItem, frameIndex){
+        //     // console.log(slideItem.$el.attr('data-onslide'));
+        //     var slidesJSON = slideItem.$el.attr('data-onslide'),
+        //         slides = $.parseJSON(slidesJSON);
 
-            slideItem.slides = slides;
-            self.lastPerFrame[frameIndex] = slides.length;
+        //     slideItem.slides = slides;
+        //     self.lastPerFrame[frameIndex] = slides.length;
+        // }
+
+        function setSlides(slideItem){
+            var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/),
+                slides = slideItem.$el.attr('data-onslide').split(','),
+                lower, upper, matches,
+                hide = {"func": "hideItem", "args": {}},
+                show = {"func": "showItem", "args": {}};
+
+            //Hiding slide item in the first slide
+            slideItem.slides[0] = {"1":{"next": hide}};
+            slides.forEach(function (s){
+                matches = reg.exec(s);
+                lower = parseInt(matches[1]) || 0;
+                var fSlide = {}, sSlide = {};
+                fSlide[lower] = {"next": show, "prev": hide};
+                slideItem.slides[lower - 1] = fSlide;
+                //Only one slide
+                if(!matches[2]){
+                    sSlide[lower + 1] = {"next": hide, "prev": show};
+                    slideItem.slides[lower] = sSlide;                                                          
+                } else //Has interval
+                    if (matches[3]){
+                        upper = parseInt(matches[3]);
+                        sSlide[upper + 1] = {"next": hide, "prev": show};
+                        slideItem.slides[upper] = sSlide;                                                                                  
+                    }               
+            });
         }
 
-        //Returns the slide intervals given a selector 
-        //or an array of slides (bag)
-        function setSlideIntervals(obj, bag, frameIndex){
-            var slideIntervals = [],
-                hasUpperLimit = true;
-            if (!(typeof bag === 'string'))      
-               bag = bag.attr('data-onslide').split(',');
-            else
-                bag = bag.split(',');
-            var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/);
-            bag.forEach(function (slide) {
-                var interval = {};
-                var matches = reg.exec(slide);
+        function updateFrameIntervals($slide, frameIndex){
+            var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/),
+                slides = $slide.attr('data-onslide').split(','),
+                lower, upper, matches, lpf, fpf;
 
-                interval.lower = matches[1] || 0;
+            slides.forEach(function (s){
+                matches = reg.exec(s); 
+                lower = matches[1] || 0;
                 //Only one slide
-                if(matches[2] == undefined){
-                    interval.upper = matches[1] || -1;
+                if(!matches[2]){
+                    upper = matches[1] || -1;
                 } else 
                     if (matches[3]){
-                        interval.upper = matches[3];
+                        upper = matches[3];
                     } else {
-                        interval.upper = -1;
-                        hasUpperLimit = false;
+                        upper = -1;
                     }
 
                 //Updating last and first slide per frame
-                if(frameIndex !== null){
-                    var u = interval.upper,
-                        l = interval.lower,
-                        lpf = self.lastPerFrame[frameIndex],
-                        fpf = self.firstPerFrame[frameIndex];
+                lpf = self.lastPerFrame[frameIndex],
+                fpf = self.firstPerFrame[frameIndex];
 
-                    //Getting max interval
-                    self.lastPerFrame[frameIndex] = Math.max(Math.max(u, l), lpf);
-                    //Getting min interval
-                    self.firstPerFrame[frameIndex] = Math.min(l, fpf);
-                }
-                slideIntervals.push(interval);
+                //Getting max interval
+                self.lastPerFrame[frameIndex] = Math.max(Math.max(upper, lower), lpf);
+                //Getting min interval
+                self.firstPerFrame[frameIndex] = Math.min(lower, fpf);
+                              
             });
-            obj.slideIntervals = slideIntervals;
-            return hasUpperLimit;               
+
         }
 
         function update(){
@@ -382,42 +340,6 @@
             update();
         }
 
-        //Shows all slide items present on current slide
-        //and hide all that aren't
-        function updateSlideItems() {
-            //Updating all items status
-            //TODO: Think about doing events
-            self.framesItems[self.currentFrame].forEach(function (slideItem){
-                var flag = false;
-                slideItem.slideIntervals.forEach(function (interval){
-                    if (interval.lower <= self.currentSlide && (interval.upper == -1 || interval.upper >= self.currentSlide)){
-
-                        //Frames also have intervals
-                        var frameIntervals = self.frames[self.currentFrame].slideIntervals;
-                        if(frameIntervals.length > 0) 
-                            frameIntervals.forEach(function (fi) {
-                                if (fi.lower <= self.currentSlide && (fi.upper == -1 || fi.upper >= self.currentSlide)){
-                                    flag = true;
-                                    return false;
-                                }
-                            });
-                        else
-                            flag = true;
-
-                        if(flag)
-                            return false;
-                    }
-                });
-
-                if (flag){
-                    slideItem.show();
-                } else {
-                    slideItem.hide();
-                }
-
-
-            }); 
-        }
 
         function nextFrame(){
             self.frames[self.currentFrame].hide();
@@ -427,7 +349,6 @@
                 });                
             self.frames[++self.currentFrame].show();
         }
-
 
 
         function previousFrame(){
@@ -458,11 +379,11 @@
 
         _init();
         setEventHandlers();
-        console.log(self.options);
+        // console.log(self.options);
         console.log(self.frames);
-        console.log(self.lastPerFrame);
-        console.log(self.firstPerFrame);
-        console.log(self.framesItems);
+        // console.log(self.lastPerFrame);
+        // console.log(self.firstPerFrame);
+        // console.log(self.framesItems);
 
         //Providing chaining
         return this;        
