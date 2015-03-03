@@ -246,6 +246,7 @@
             //Hiding slide item in the first slide
             slideItem.slides[0] = {"1":{"next": hide}};
             slides.forEach(function (s){
+                if(s === '') return;
                 matches = reg.exec(s);
                 lower = parseInt(matches[1]) || 0;
                 var fSlide = {}, sSlide = {};
@@ -276,20 +277,21 @@
                 regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
                 slides = $slide.attr('data-onslide').replace(/[ \t\r]+/g, ""),
                 slideObjs = slides.match(regMatch),
-                _update = function(lower, upper){
+                _update = function(l, u){
                     //Updating last and first slide per frame
                     var lpf = self.lastPerFrame[frameIndex],
                         fpf = self.firstPerFrame[frameIndex];
 
                     //Getting max interval
-                    self.lastPerFrame[frameIndex] = Math.max(Math.max(upper, lower), lpf);
+                    self.lastPerFrame[frameIndex] = Math.max(Math.max(u, l), lpf);
                     //Getting min interval
-                    self.firstPerFrame[frameIndex] = Math.min(lower, fpf);
+                    self.firstPerFrame[frameIndex] = Math.min(l, fpf);
                 },
                 lower, upper, matches;
 
             slides = slides.replace(regRepl, '').split(',');
-            slides.forEach(function (s){              
+            slides.forEach(function (s){
+                if(s === '') return;              
                 matches = reg.exec(s); 
                 lower = matches[1] || 0;
                 //Only one slide

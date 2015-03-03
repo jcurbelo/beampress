@@ -17,10 +17,10 @@
                 <div class="frame-content">
                     <div class="hfil">
                         <!-- data-onslide="1-" -->
-                        <div data-onslide="1-" class="minipage" style="width:350px;">
+                        <div data-onslide='1-' class="minipage" style="width:350px;">
                             Este es un minipage que supuestamente tiene la mitad del linewidth de ancho. Aqui estoy escribiendo solo para que sea lo suficientemente grande y sea mas de lo que se lleva el minipage.
                             <!-- data-onslide="2-" -->
-                            <div class="block" data-onslide="2-">
+                            <div class="block" data-onslide='2-, {"3":{"next":{"func":"inc", "args":{}}, "prev": {"func":"dec", "args":{}}}}, {"4":{"next":{"func":"dec", "args":{}}, "prev": {"func":"inc", "args":{}}}}'>
                                 <header>
                                     un bloque en minipage
                                 </header>
@@ -32,7 +32,8 @@
                         </div>
                         <!-- data-onslide="4-" -->
                         <div class="minipage" style="width: 350px;" data-onslide="4-">
-                            otro minipage. Aqui se pueden poner imágenes, pero no las pongo para no tener que mandarlas.    
+                            otro minipage. Aqui se pueden poner imágenes, pero no las pongo para no tener que mandarlas.
+                            <span data-onslide='{"5":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}'>Y yo soy asi</span>    
                         </div>
                     </div>
                 </div>
