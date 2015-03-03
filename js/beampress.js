@@ -28,14 +28,12 @@
                 $el.css('display', 'block');
             },
             slowHideItem: function ($el, args){
-                var args = {'opacity': 0},
-                    speed = 'slow';
-                $el.animate(args, speed);
+                var args = $.extend({}, {'values':{'opacity': 0}, 'speed': 'slow'}, args);
+                $el.animate(args['values'], args['speed']);
             },
             slowShowItem: function ($el, args){
-                var args = {'opacity': 1},
-                    speed = 'slow';
-                $el.animate(args, speed);
+                var args = $.extend({}, {'values':{'opacity': 1}, 'speed': 'slow'}, args);
+                $el.animate(args['values'], args['speed']);
             }                            
         },
 
@@ -234,24 +232,17 @@
             next();
         } 
 
-
-        //Sets the animation functions to all slideItem's interval
-        // function setSlides(slideItem, frameIndex){
-        //     // console.log(slideItem.$el.attr('data-onslide'));
-        //     var slidesJSON = slideItem.$el.attr('data-onslide'),
-        //         slides = $.parseJSON(slidesJSON);
-
-        //     slideItem.slides = slides;
-        //     self.lastPerFrame[frameIndex] = slides.length;
-        // }
-
         function setSlides(slideItem){
-            var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/),
-                slides = slideItem.$el.attr('data-onslide').split(','),
+            var reg = new RegExp(/([1-9]\d*)?(-)?([1-9]\d*)?/),
+                regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
+                regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
+                slides = slideItem.$el.attr('data-onslide').replace(/[ \t\r]+/g, ""),
+                slideObjs = slides.match(regMatch),
                 lower, upper, matches,
                 hide = {"func": "hideItem", "args": {}},
                 show = {"func": "showItem", "args": {}};
 
+            slides = slides.replace(regRepl, '').split(',');
             //Hiding slide item in the first slide
             slideItem.slides[0] = {"1":{"next": hide}};
             slides.forEach(function (s){
@@ -271,14 +262,34 @@
                         slideItem.slides[upper] = sSlide;                                                                                  
                     }               
             });
+            if(slideObjs)
+                slideObjs.forEach(function (s){
+                    var data =  $.parseJSON(s),
+                        i = parseInt(Object.keys(data)[0]);
+                    slideItem.slides[i - 1] = data;              
+                });
         }
 
         function updateFrameIntervals($slide, frameIndex){
-            var reg = new RegExp(/(\s*[1-9]\d*)?(\s*-\s*)?(\s*[1-9]\d*\s*)?/),
-                slides = $slide.attr('data-onslide').split(','),
-                lower, upper, matches, lpf, fpf;
+            var reg = new RegExp(/([1-9]\d*)?(-)?([1-9]\d*)?/),
+                regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
+                regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
+                slides = $slide.attr('data-onslide').replace(/[ \t\r]+/g, ""),
+                slideObjs = slides.match(regMatch),
+                _update = function(lower, upper){
+                    //Updating last and first slide per frame
+                    var lpf = self.lastPerFrame[frameIndex],
+                        fpf = self.firstPerFrame[frameIndex];
 
-            slides.forEach(function (s){
+                    //Getting max interval
+                    self.lastPerFrame[frameIndex] = Math.max(Math.max(upper, lower), lpf);
+                    //Getting min interval
+                    self.firstPerFrame[frameIndex] = Math.min(lower, fpf);
+                },
+                lower, upper, matches;
+
+            slides = slides.replace(regRepl, '').split(',');
+            slides.forEach(function (s){              
                 matches = reg.exec(s); 
                 lower = matches[1] || 0;
                 //Only one slide
@@ -290,17 +301,14 @@
                     } else {
                         upper = -1;
                     }
-
-                //Updating last and first slide per frame
-                lpf = self.lastPerFrame[frameIndex],
-                fpf = self.firstPerFrame[frameIndex];
-
-                //Getting max interval
-                self.lastPerFrame[frameIndex] = Math.max(Math.max(upper, lower), lpf);
-                //Getting min interval
-                self.firstPerFrame[frameIndex] = Math.min(lower, fpf);
-                              
+                _update(lower, upper);   
             });
+            if(slideObjs)
+                slideObjs.forEach(function (s){
+                    var data =  $.parseJSON(s),
+                        i = parseInt(Object.keys(data)[0]);
+                    _update(i, i);                
+                });
 
         }
 
@@ -381,8 +389,8 @@
         setEventHandlers();
         // console.log(self.options);
         console.log(self.frames);
-        // console.log(self.lastPerFrame);
-        // console.log(self.firstPerFrame);
+        console.log(self.lastPerFrame);
+        console.log(self.firstPerFrame);
         // console.log(self.framesItems);
 
         //Providing chaining

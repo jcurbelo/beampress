@@ -104,7 +104,7 @@
                                         </div>
                                     </div> 
                                     <!-- data-onslide="3-" -->
-                                    <div class="minipage" style="width: 160px;" data-onslide="3-">
+                                    <div class="minipage" style="width: 160px;" data-onslide='1-2, {"4":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}, 5-'>
                                         <div class="block">
                                             <div class="block-content" >
                                                   y este es de "2" cm
@@ -199,7 +199,20 @@
         <script src="../../js/beampress.js"></script>
         <script>       
             $(document).ready(function(){
-                $("#main-container").beampress();                                
+                $("#main-container").beampress({
+                    'inc': increaseHeigth,
+                    'dec': decreaseHeight
+                });
+
+                function increaseHeigth($el, args){
+                    var args = $.extend({}, {'values':{'height': $el.height() + 100}, 'speed': 'slow'}, args);
+                    $el.animate(args['values'], args['speed']);
+                }
+
+                function decreaseHeight($el, args){
+                    var args = $.extend({}, {'values':{'height': $el.height() - 100}, 'speed': 'slow'}, args);
+                    $el.animate(args['values'], args['speed']);
+                }                                
             });
         </script>
     </body>
