@@ -13,6 +13,18 @@
 
         <div id="main-container">
             <section class="frame">
+                <!-- Audio declaration -->
+                <audio id="pres-media" src="../../../08 - Frayed.mp3"></audio>
+
+                <!-- Play Audio on slide 2 -->
+                <span data-onslide='{"2":{"next":{"func":"playAudioEx", "args":{"id":"pres-media", "currentTime": "0"}}, "prev": {"func":"stopAudioEx", "args":{"id":"pres-media"}}}}'></span>
+
+                <!-- Stop Audio with fade out on slide 3 -->
+                <span data-onslide='{"3":{"next":{"func":"fadeOutAudioEx", "args":{"id":"pres-media"}}, "prev": {"func":"fadeInAudioEx", "args":{"id":"pres-media", "currentTime": "0"}}}}'></span>
+                
+                <!-- Play Audio with fade out on slide 5 -->
+                <span data-onslide='{"5":{"next":{"func":"fadeInAudioEx", "args":{"id":"pres-media", "currentTime": "0"}}, "prev": {"func":"fadeOutAudioEx", "args":{"id":"pres-media"}}}}'></span>
+
                 <h1>Un ejemplo del minipage</h1>
                 <div class="frame-content">
                     <div class="hfil">
@@ -20,7 +32,7 @@
                         <div data-onslide='1-' class="minipage" style="width:350px;">
                             Este es un minipage que supuestamente tiene la mitad del linewidth de ancho. Aqui estoy escribiendo solo para que sea lo suficientemente grande y sea mas de lo que se lleva el minipage.
                             <!-- data-onslide="2-" -->
-                            <div class="block" data-onslide='2-, {"3":{"next":{"func":"inc", "args":{}}, "prev": {"func":"dec", "args":{}}}}, {"4":{"next":{"func":"dec", "args":{}}, "prev": {"func":"inc", "args":{}}}}'>
+                            <div class="block" data-onslide='2-; {"3":{"next":{"func":"inc", "args":{}}, "prev": {"func":"dec", "args":{}}}}; {"4":{"next":{"func":"dec", "args":{}}, "prev": {"func":"inc", "args":{}}}}'>
                                 <header>
                                     un bloque en minipage
                                 </header>
@@ -40,6 +52,9 @@
             </section>
 
             <section class="frame">
+                <!-- Stop Audio on slide 2 (now into another frame) -->
+                <!-- Note that "prev slide" plays the audio on "currentTime = 60s"  -->
+                <span data-onslide='{"2":{"next":{"func":"stopAudioEx", "args":{"id":"pres-media"}}, "prev": {"func":"playAudioEx", "args":{"id":"pres-media", "currentTime": "60"}}}}'></span>
                 <h1>Varios minipages</h1>
                 <div class="frame-content">
                     <div class="center">
@@ -105,7 +120,7 @@
                                         </div>
                                     </div> 
                                     <!-- data-onslide="3-" -->
-                                    <div class="minipage" style="width: 160px;" data-onslide='1-2, {"4":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}, 5-'>
+                                    <div class="minipage" style="width: 160px;" data-onslide='1-2; {"4":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}; 5-'>
                                         <div class="block">
                                             <div class="block-content" >
                                                   y este es de "2" cm
@@ -193,8 +208,6 @@
                 </div>
 
             </section>
-            <!-- <section class="frame" data-againframe="[f-"1"] "1","5""></section> -->
-            <!-- <section class="frame" data-againframe="[f-"1"] "6"-"></section> -->
         </div>
 
         <script src="../../js/beampress.js"></script>

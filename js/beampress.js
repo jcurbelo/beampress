@@ -34,7 +34,55 @@
             slowShowItem: function ($el, args){
                 var args = $.extend({}, {'values':{'opacity': 1}, 'speed': 'slow'}, args);
                 $el.animate(args['values'], args['speed']);
-            }                            
+            },
+            playAudio: function ($el, args){
+                var args = $.extend({}, {'currentTime': 0}, args);
+                $el.trigger('play');
+                $el.prop('currentTime', args['currentTime']);
+            },
+            stopAudio: function ($el, args){
+                $el.trigger('pause');
+                $el.prop("currentTime", 0);  
+            },
+            fadeInAudio: function ($el, args){
+                var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
+                $el.trigger('play');
+                $el.prop('currentTime', args['currentTime']);
+                $el.prop('volume', 0);                
+                $el.animate(args['values'], args['speed']);
+            },
+            fadeOutAudio: function ($el, args){
+                var args = $.extend({}, {'speed': 'slow', 'values':{'volume' : 0}}, args);
+                $el.animate(args['values'], args['speed'], function () {
+                    $el.trigger('pause');
+                });
+            },
+            //Kinda boxing and unboxing params (I know is not so clear :( )
+            ex: function(bag){
+                bag.args = $.extend({}, {'id': bag.$el.attr('id')}, bag.args);
+                bag.$el = $('#' + bag.args['id']);
+                delete bag.args['id'];
+            },
+            playAudioEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.playAudio(bag.$el, bag.args);
+            },
+            stopAudioEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.stopAudio(bag.$el, bag.args);
+            },
+            fadeInAudioEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.fadeInAudio(bag.$el, bag.args);
+            },
+            fadeOutAudioEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.fadeOutAudio(bag.$el, bag.args);
+            }                                                                  
         },
 
         //Helpers
@@ -234,19 +282,27 @@
 
         function setSlides(slideItem){
             var reg = new RegExp(/([1-9]\d*)?(-)?([1-9]\d*)?/),
-                regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
-                regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
+                // regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
+                // regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
                 slides = slideItem.$el.attr('data-onslide').replace(/[ \t\r]+/g, ""),
-                slideObjs = slides.match(regMatch),
+                // slideObjs = slides.match(regMatch),
                 lower, upper, matches,
                 hide = {"func": "hideItem", "args": {}},
                 show = {"func": "showItem", "args": {}};
 
-            slides = slides.replace(regRepl, '').split(',');
+            slides = slides.split(';');
             //Hiding slide item in the first slide
             slideItem.slides[0] = {"1":{"next": hide}};
             slides.forEach(function (s){
+                //Just in case, you'll never know
                 if(s === '') return;
+                //Actually parsing a JSON, wow
+                if(s.substr(0, 1) === "{"){
+                    var data =  $.parseJSON(s),
+                        i = parseInt(Object.keys(data)[0]);
+                    slideItem.slides[i - 1] = data;
+                    return;                     
+                }
                 matches = reg.exec(s);
                 lower = parseInt(matches[1]) || 0;
                 var fSlide = {}, sSlide = {};
@@ -263,20 +319,14 @@
                         slideItem.slides[upper] = sSlide;                                                                                  
                     }               
             });
-            if(slideObjs)
-                slideObjs.forEach(function (s){
-                    var data =  $.parseJSON(s),
-                        i = parseInt(Object.keys(data)[0]);
-                    slideItem.slides[i - 1] = data;              
-                });
         }
 
         function updateFrameIntervals($slide, frameIndex){
             var reg = new RegExp(/([1-9]\d*)?(-)?([1-9]\d*)?/),
-                regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
-                regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
+                // regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
+                // regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
                 slides = $slide.attr('data-onslide').replace(/[ \t\r]+/g, ""),
-                slideObjs = slides.match(regMatch),
+                // slideObjs = slides.match(regMatch),
                 _update = function(l, u){
                     //Updating last and first slide per frame
                     var lpf = self.lastPerFrame[frameIndex],
@@ -289,9 +339,17 @@
                 },
                 lower, upper, matches;
 
-            slides = slides.replace(regRepl, '').split(',');
+            slides = slides.split(';');
             slides.forEach(function (s){
-                if(s === '') return;              
+                //Just in case, you'll never know
+                if(s === '') return;
+                //Actually parsing a JSON, wow
+                if(s.substr(0, 1) === "{"){
+                    var data =  $.parseJSON(s),
+                        i = parseInt(Object.keys(data)[0]);
+                    _update(i, i); 
+                    return;                     
+                }             
                 matches = reg.exec(s); 
                 lower = matches[1] || 0;
                 //Only one slide
@@ -305,12 +363,6 @@
                     }
                 _update(lower, upper);   
             });
-            if(slideObjs)
-                slideObjs.forEach(function (s){
-                    var data =  $.parseJSON(s),
-                        i = parseInt(Object.keys(data)[0]);
-                    _update(i, i);                
-                });
 
         }
 
