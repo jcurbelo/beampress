@@ -21,6 +21,12 @@
             showItem: function ($el, args){
                 $el.css('opacity', 100);
             },
+            addStyle: function($el, args){
+                $el.css(args);
+            },
+            removeStyle: function($el, args){
+                $el.attr('style', '');
+            },
             hideFrame: function ($el, args){
                 $el.css('display', 'none');
             },
@@ -101,6 +107,10 @@
                     prop = keys[i];
                 }
                 return def;
+            },
+            convertToDict: function(txt){
+                var keyValue = txt.split(':');
+                return $.parseJSON('{"' + keyValue[0] + '" : "' + keyValue[1] + '"}');
             }
     };
 
@@ -285,14 +295,20 @@
                 // regRepl = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*,?/g),
                 // regMatch = new RegExp(/\{"[1-9]\d*"\:[^,]*,[^,]*,[^,]*,[^,]*/g),
                 slides = slideItem.$el.attr('data-onslide').replace(/[ \t\r]+/g, ""),
+                style = slideItem.$el.attr('data-style'),
                 // slideObjs = slides.match(regMatch),
                 lower, upper, matches,
+                addStyle = {"func": "addStyle", "args": {}},
+                removeStyle = {"func": "removeStyle", "args": {}},
                 hide = {"func": "hideItem", "args": {}},
                 show = {"func": "showItem", "args": {}};
 
             slides = slides.split(';');
-            //Hiding slide item in the first slide
-            slideItem.slides[0] = {"1":{"next": hide}};
+            if(!style)
+                //Hiding slide item in the first slide
+                slideItem.slides[0] = {"1":{"next": hide}};
+            else
+                addStyle['args'] = helpers.convertToDict(style);
             slides.forEach(function (s){
                 //Just in case, you'll never know
                 if(s === '') return;
@@ -306,16 +322,17 @@
                 matches = reg.exec(s);
                 lower = parseInt(matches[1]) || 0;
                 var fSlide = {}, sSlide = {};
-                fSlide[lower] = {"next": show, "prev": hide};
+                fSlide[lower] = !style ? {"next": show, "prev": hide} : {"next": addStyle, "prev": removeStyle};
+
                 slideItem.slides[lower - 1] = fSlide;
                 //Only one slide
                 if(!matches[2]){
-                    sSlide[lower + 1] = {"next": hide, "prev": show};
+                    sSlide[lower + 1] = !style ? {"next": hide, "prev": show} : {"next": removeStyle, "prev": addStyle};
                     slideItem.slides[lower] = sSlide;                                                          
                 } else //Has interval
                     if (matches[3]){
                         upper = parseInt(matches[3]);
-                        sSlide[upper + 1] = {"next": hide, "prev": show};
+                        sSlide[upper + 1] = !style ? {"next": hide, "prev": show} : {"next": removeStyle, "prev": addStyle};
                         slideItem.slides[upper] = sSlide;                                                                                  
                     }               
             });

@@ -208,6 +208,42 @@
                 </div>
 
             </section>
+
+            <section class="frame">
+                <h1>Probando estilos</h1>
+                <div class="frame-content">
+                    <div class="block">
+                        <header>Cambiando estilos</header>
+                        <div class="block-content">
+                            <!-- Ugly and new syntax -->
+                            <span data-onslide='1-; {"2":{"next":{"func":"addStyle", "args":{"font-size": "120%"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                <span data-onslide='1-;{"3":{"next":{"func":"addStyle", "args":{"font-style": "italic"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                    <span data-onslide='1-;{"4":{"next":{"func":"addStyle", "args":{"font-variant": "small-caps"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                        <span data-onslide='1-;{"5":{"next":{"func":"addStyle", "args":{"font-weight": "bold"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                            <span data-onslide='1-;{"6":{"next":{"func":"addStyle", "args":{"font-family": "Times New Roman"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                                Style using new syntax
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>
+                            <br>
+                            <!-- Old syntax -->
+                            <span data-onslide="2" data-style="font-size:120%">
+                                <span data-onslide="3" data-style="font-style:italic">
+                                    <span data-onslide="4" data-style="font-variant:small-caps">
+                                        <span data-onslide="5" data-style="font-weight:bold">
+                                            <span data-onslide="6" data-style="font-family:Times New Roman">
+                                                Style using old syntax
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>                            
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <script src="../../js/beampress.js"></script>
