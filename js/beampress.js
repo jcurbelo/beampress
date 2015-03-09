@@ -46,10 +46,21 @@
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
             },
+            playVideo: function ($el, args){
+                var args = $.extend({}, {'currentTime': 0}, args);
+                $el.css({"display": "block"});
+                $el.trigger('play');
+                $el.prop('currentTime', args['currentTime']);
+            },            
             stopAudio: function ($el, args){
                 $el.trigger('pause');
                 $el.prop("currentTime", 0);  
             },
+            stopVideo: function ($el, args){
+                $el.trigger('pause');
+                $el.css({"display": "none"});
+                $el.prop("currentTime", 0);  
+            },            
             fadeInAudio: function ($el, args){
                 var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
                 $el.trigger('play');
@@ -74,11 +85,21 @@
                 defaults.ex(bag);
                 defaults.playAudio(bag.$el, bag.args);
             },
+            playVideoEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.playVideo(bag.$el, bag.args);
+            },            
             stopAudioEx: function($el, args){
                 var bag = {'$el': $el, 'args': args};
                 defaults.ex(bag);
                 defaults.stopAudio(bag.$el, bag.args);
             },
+            stopVideoEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.stopVideo(bag.$el, bag.args);
+            },            
             fadeInAudioEx: function($el, args){
                 var bag = {'$el': $el, 'args': args};
                 defaults.ex(bag);

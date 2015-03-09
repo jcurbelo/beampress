@@ -244,6 +244,23 @@
                     </div>
                 </div>
             </section>
+            <section class="frame">
+                <h1>Playing with videos</h1>
+                <div class="frame-content">
+                    <div class="block">
+                        <header>Yo me ire</header>
+                        <div class="block-content">
+                            de aqui
+                        <!-- Video declaration -->
+                        <video id="pres-video" style="display: none;" src="../../../Bobby McFerrin - Thinkin' About Your Body.mp4"></video>
+                        <!-- Play Video on slide 2 -->
+                        <span data-onslide='{"2":{"next":{"func":"playVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"stopVideoEx", "args":{"id":"pres-video"}}}}'></span>
+                        <!-- Stop Video on slide 3 -->
+                        <span data-onslide='{"3":{"next":{"func":"stopVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"playVideoEx", "args":{"id":"pres-video"}}}}'></span>                        
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <script src="../../js/beampress.js"></script>
