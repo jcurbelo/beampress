@@ -48,9 +48,23 @@
             },
             playVideo: function ($el, args){
                 var args = $.extend({}, {'currentTime': 0}, args);
-                $el.css({"display": "block"});
+                $el.attr({"style": ""});                                                   
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
+                var rfs = 
+                           $el.requestFullScreen
+                        || $el.webkitRequestFullScreen
+                        || $el.mozRequestFullScreen
+                        || $el.msRequestFullscreen
+                ;
+                if(rfs){
+                    rfs.call($el);
+                } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+                    var wscript = new ActiveXObject("WScript.Shell");
+                    if (wscript !== null) {
+                        wscript.SendKeys("{F11}");
+                    }
+                }                 
             },            
             stopAudio: function ($el, args){
                 $el.trigger('pause');
