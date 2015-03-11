@@ -4,7 +4,7 @@
  */
 
 ;(function ( $, window, document, undefined ) {
-	"use strict";
+    "use strict";
 
     // Create the defaults once
     var pluginName = 'beampress',
@@ -33,6 +33,18 @@
             showFrame: function ($el, args){
                 $el.css('display', 'block');
             },
+            slowShowFrame: function ($el, args){
+                $el.css('opacity', 0);
+                $el.css('display', 'block');
+                var args = $.extend({}, {'values':{'opacity': 1}, 'speed': 'slow'}, args);
+                $el.animate(args['values'], args['speed']);                
+            },
+            slowHideFrame: function ($el, args){
+                var args = $.extend({}, {'values':{'opacity': 0}, 'speed': 'slow'}, args);
+                $el.animate(args['values'], args['speed'], function(){
+                    $el.css('display', 'none');
+                });                
+            },
             slowHideItem: function ($el, args){
                 var args = $.extend({}, {'values':{'opacity': 0}, 'speed': 'slow'}, args);
                 $el.animate(args['values'], args['speed']);
@@ -48,23 +60,9 @@
             },
             playVideo: function ($el, args){
                 var args = $.extend({}, {'currentTime': 0}, args);
-                $el.attr({"style": ""});                                                   
+                $el.attr({"style": ""});                                                                   
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
-                var rfs = 
-                           $el.requestFullScreen
-                        || $el.webkitRequestFullScreen
-                        || $el.mozRequestFullScreen
-                        || $el.msRequestFullscreen
-                ;
-                if(rfs){
-                    rfs.call($el);
-                } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
-                    var wscript = new ActiveXObject("WScript.Shell");
-                    if (wscript !== null) {
-                        wscript.SendKeys("{F11}");
-                    }
-                }                 
             },            
             stopAudio: function ($el, args){
                 $el.trigger('pause');
@@ -82,10 +80,27 @@
                 $el.prop('volume', 0);                
                 $el.animate(args['values'], args['speed']);
             },
+            fadeInVideo: function ($el, args){
+                var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
+                $el.attr({"style": ""}); 
+                $el.trigger('play');
+                $el.prop('currentTime', args['currentTime']);
+                $el.prop('volume', 0);                
+                $el.animate(args['values'], args['speed']);                
+            },
             fadeOutAudio: function ($el, args){
                 var args = $.extend({}, {'speed': 'slow', 'values':{'volume' : 0}}, args);
                 $el.animate(args['values'], args['speed'], function () {
                     $el.trigger('pause');
+                    $el.prop("currentTime", 0);
+                });
+            },
+            fadeOutVideo: function ($el, args){
+                var args = $.extend({}, {'speed': 'slow', 'values':{'volume' : 0}}, args);
+                $el.animate(args['values'], args['speed'], function () {
+                    $el.trigger('pause');
+                    $el.css({"display": "none"});
+                    $el.prop("currentTime", 0);
                 });
             },
             //Kinda boxing and unboxing params (I know is not so clear :( )
@@ -119,11 +134,21 @@
                 defaults.ex(bag);
                 defaults.fadeInAudio(bag.$el, bag.args);
             },
+            fadeInVideoEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.fadeInVideo(bag.$el, bag.args);
+            },            
             fadeOutAudioEx: function($el, args){
                 var bag = {'$el': $el, 'args': args};
                 defaults.ex(bag);
                 defaults.fadeOutAudio(bag.$el, bag.args);
-            }                                                                  
+            },
+            fadeOutVideoEx: function($el, args){
+                var bag = {'$el': $el, 'args': args};
+                defaults.ex(bag);
+                defaults.fadeOutVideo(bag.$el, bag.args);
+            }                                                                               
         },
 
         //Helpers
@@ -220,6 +245,8 @@
         //Frame objects
         function Frame($el){
             this.$el = $el;
+            this.hideFrame = self.options.hideFrame;
+            this.showFrame = self.options.showFrame;
         }
 
         var F = function () {}; 
@@ -242,7 +269,7 @@
 
         Frame.prototype.hide = function () {
             if(this.showed){
-                self.options.hideFrame(this.$el);
+                this.hideFrame(this.$el, {});
                 this.showed = false;
             }
             // this.$el.css('display', 'none');
@@ -250,7 +277,7 @@
 
         Frame.prototype.show = function () {
             if(!this.showed){
-                self.options.showFrame(this.$el);
+                this.showFrame(this.$el, {});
                 this.showed = true;    
             }        
             
@@ -296,6 +323,19 @@
                 self.lastPerFrame[i] = 1;
                 self.frames[i] = frame;
                 self.framesItems[i] = [];
+
+                //Checking 'show' and 'hide' for frame
+                //TODO: Quick DRY this and do it the way i did with 'slideItems'
+                var show = frame.$el.attr('data-onshow'),
+                    hide = frame.$el.attr('data-onhide');
+                if(show){
+                    show = $.parseJSON(show);
+                    frame.showFrame = self.options[show.func];
+                }
+                if(hide){
+                    hide = $.parseJSON(hide);
+                    frame.hideFrame = self.options[hide.func];
+                }                
 
                 //Updating frame intervals
                 $(frame.$el).find('[data-onslide]').each(function (j) {

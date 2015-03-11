@@ -7,7 +7,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="../warsaw/css/warsaw.css">
+        <!-- Chang URLs to wherever Video.js files will be hosted -->
+        <!-- <link href="css/video-js.min.css" rel="stylesheet" type="text/css"> -->
+        <!-- video.js must be in the <head> for older IEs to work. -->
+        <!-- <script src="../../js/video.js"></script> -->
         <script src="../../js/jquery-1.10.2.min.js"></script>
+        <style>
+            video {
+                /*position: fixed; right: 0; bottom: 0;*/
+                min-width: 100%; min-height: 100%;
+                width: auto; height: auto;
+                background: black no-repeat;
+                background-size: cover;
+            }
+        </style>
     </head>
     <body>
 
@@ -209,7 +222,7 @@
 
             </section>
 
-            <section class="frame">
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}'>
                 <h1>Probando estilos</h1>
                 <div class="frame-content">
                     <div class="block">
@@ -244,28 +257,28 @@
                     </div>
                 </div>
             </section>
-            <section class="frame">
-                <h1>Playing with videos</h1>
+            <section class="frame" style="background-color: black;">
+                <!-- <h1>Playing with videos</h1> -->
                 <div class="frame-content">
-                    <div class="block">
-                        <header>Yo me ire</header>
-                        <div class="block-content">
-                            de aqui
+                    <!-- <div class="block"> -->
+                        <!-- <header>Yo me ire</header> -->
+                        <!-- <div class="block-content"> -->
+                            <!-- de aqui -->
                         <!-- Video declaration -->
-                        <video id="pres-video" style="display: none;" src="../../../Bobby McFerrin - Thinkin' About Your Body.mp4"></video>
+                        <video id="pres-video" style="display: none;" src="../../../Voted Best Commercial In Europe.mp4"></video>
                         <!-- Play Video on slide 2 -->
-                        <span data-onslide='{"2":{"next":{"func":"playVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"stopVideoEx", "args":{"id":"pres-video"}}}}'></span>
+                        <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"pres-video"}}}}'></span>
                         <!-- Stop Video on slide 3 -->
-                        <span data-onslide='{"3":{"next":{"func":"stopVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"playVideoEx", "args":{"id":"pres-video"}}}}'></span>                        
-                        </div>
-                    </div>
+                        <span data-onslide='{"3":{"next":{"func":"fadeOutVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeInVideoEx", "args":{"id":"pres-video"}}}}'></span>                        
+                        <!-- </div> -->
+                    <!-- </div> -->
                 </div>
             </section>
         </div>
 
         <script src="../../js/beampress.js"></script>
         <script>       
-            $(document).ready(function(){
+            $(document).ready(function(){                
                 $("#main-container").beampress({
                     'inc': increaseHeigth,
                     'dec': decreaseHeight
@@ -279,7 +292,7 @@
                 function decreaseHeight($el, args){
                     var args = $.extend({}, {'values':{'height': $el.height() - 100}, 'speed': 'slow'}, args);
                     $el.animate(args['values'], args['speed']);
-                }                                
+                }                                               
             });
         </script>
     </body>
