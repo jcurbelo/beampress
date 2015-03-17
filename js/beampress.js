@@ -9,9 +9,13 @@
     // Create the defaults once
     var pluginName = 'beampress',
         defaults = {
-            //Repeating all effects going to a prev. Frame 
+            // Repeating all effects going to a prev. Frame 
             repeatPrev: true,
             maxItems: 100,
+            // current frame
+            currentFrame: 0,
+            // current slide (slide list starts at '1')
+            currentSlide: 0,
             identity: function ($el, args){
 
             },
@@ -190,9 +194,9 @@
         //last element per frame
         this.lastPerFrame = [];
         //current frame
-        this.currentFrame = 0;
+        // this.currentFrame = 0;
         //current slide (slide list starts at '1')
-        this.currentSlide = 0;
+        // this.currentSlide = 0;
         //starting slide for each frame
         this.firstPerFrame = [];  
 
@@ -360,7 +364,7 @@
                 $(this).css('display', 'none');
             });
             //Showing first slide
-            self.frames[self.currentFrame].show();
+            self.frames[self.options.currentFrame].show();
             //Increasing first slide show
             next();
         } 
@@ -459,59 +463,59 @@
         }
 
         function update(){
-            var frame = self.frames[self.currentFrame];
-            frame.update(self.currentSlide);
+            var frame = self.frames[self.options.currentFrame];
+            frame.update(self.options.currentSlide);
         }
 
         function updatePrevious(){
-            var frame = self.frames[self.currentFrame];
-            frame.updatePrevious(self.currentSlide);
+            var frame = self.frames[self.options.currentFrame];
+            frame.updatePrevious(self.options.currentSlide);
         }
 
         //Show all slide items that are 'present' on
         //next slide 
         function next(){
-            if (self.lastPerFrame[self.currentFrame] == self.currentSlide){
-                if(self.currentFrame + 1 >= self.frames.length) return;
+            if (self.lastPerFrame[self.options.currentFrame] == self.options.currentSlide){
+                if(self.options.currentFrame + 1 >= self.frames.length) return;
                 nextFrame();
-                self.currentSlide = 0;
+                self.options.currentSlide = 0;
             }
-            self.currentSlide++;
+            self.options.currentSlide++;
             update();
         }
 
         //Show all slide items that are 'present' on
         //previous slide 
         function previous(){
-            if(self.currentSlide == 1){
-                if(self.currentFrame - 1 < 0) return;
+            if(self.options.currentSlide == 1){
+                if(self.options.currentFrame - 1 < 0) return;
                 previousFrame();
-                self.currentSlide = self.lastPerFrame[self.currentFrame] + 1;
+                self.options.currentSlide = self.lastPerFrame[self.options.currentFrame] + 1;
             } else { 
                 updatePrevious();
             }
-            self.currentSlide--;
+            self.options.currentSlide--;
             update();
         }
 
 
         function nextFrame(){
-            self.frames[self.currentFrame].hide();
+            self.frames[self.options.currentFrame].hide();
             if(self.options.repeatPrev)
-                self.framesItems[self.currentFrame].forEach(function (si){
+                self.framesItems[self.options.currentFrame].forEach(function (si){
                     si.showed = false;
                 });                
-            self.frames[++self.currentFrame].show();
+            self.frames[++self.options.currentFrame].show();
         }
 
 
         function previousFrame(){
 
-            self.frames[self.currentFrame].hide();
-            self.framesItems[self.currentFrame].forEach(function (si){
+            self.frames[self.options.currentFrame].hide();
+            self.framesItems[self.options.currentFrame].forEach(function (si){
                 si.showed = false;
             });
-            self.frames[--self.currentFrame].show();
+            self.frames[--self.options.currentFrame].show();
 
         }
 
