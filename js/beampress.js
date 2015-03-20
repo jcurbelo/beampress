@@ -368,7 +368,12 @@
             //Showing first slide
             self.frames[self.options.currentFrame].show();
             //Increasing first slide show
-            next();
+            // Experimental: performing fastfoward
+            var limit = self.options.currentSlide;
+            self.options.currentSlide = 0;
+            for (var i = 0; i <= limit; i++) {
+                next();
+            }
         } 
 
         function setSlides(slideItem){
