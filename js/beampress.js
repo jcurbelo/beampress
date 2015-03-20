@@ -58,15 +58,17 @@
                 $el.animate(args['values'], args['speed']);
             },
             playAudio: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0}, args);
+                var args = $.extend({}, {'currentTime': 0, 'volume': 100}, args);
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
+                $el.prop('volume', args['volume']);
             },
             playVideo: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0}, args);
-                $el.attr({"style": ""});                                                                   
+                var args = $.extend({}, {'currentTime': 0, 'volume': 100}, args);
+                // $el.attr({"style": ""});                                                                   
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
+                $el.prop('volume', args['volume']);
             },            
             stopAudio: function ($el, args){
                 $el.trigger('pause');
@@ -74,7 +76,7 @@
             },
             stopVideo: function ($el, args){
                 $el.trigger('pause');
-                $el.css({"display": "none"});
+                // $el.css({"display": "none"});
                 $el.prop("currentTime", 0);  
             },            
             fadeInAudio: function ($el, args){

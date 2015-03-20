@@ -12,15 +12,6 @@
         <!-- video.js must be in the <head> for older IEs to work. -->
         <!-- <script src="../../js/video.js"></script> -->
         <script src="../../js/jquery-1.10.2.min.js"></script>
-        <style>
-            video {
-                /*position: fixed; right: 0; bottom: 0;*/
-                min-width: 100%; min-height: 100%;
-                width: auto; height: auto;
-                background: black no-repeat;
-                background-size: cover;
-            }
-        </style>
     </head>
     <body>
 
@@ -257,7 +248,7 @@
                     </div>
                 </div>
             </section>
-            <section class="frame" style="background-color: black;">
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}' style="background-color: black;">
                 <!-- <h1>Playing with videos</h1> -->
                 <div class="frame-content">
                     <!-- <div class="block"> -->
@@ -265,7 +256,7 @@
                         <!-- <div class="block-content"> -->
                             <!-- de aqui -->
                         <!-- Video declaration -->
-                        <video id="pres-video" style="display: none;" src="../../../Voted Best Commercial In Europe.mp4"></video>
+                        <video id="pres-video" src="../../../Voted Best Commercial In Europe.mp4"></video>
                         <!-- Play Video on slide 2 -->
                         <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"pres-video"}}}}'></span>
                         <!-- Stop Video on slide 3 -->
@@ -281,7 +272,8 @@
             $(document).ready(function(){                
                 $("#main-container").beampress({
                     'inc': increaseHeigth,
-                    'dec': decreaseHeight
+                    'dec': decreaseHeight,
+                    'currentFrame': 5
                 });
 
                 function increaseHeigth($el, args){
