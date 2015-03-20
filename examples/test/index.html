@@ -13,6 +13,17 @@
         <!-- <script src="../../js/video.js"></script> -->
         <script src="../../js/jquery-1.10.2.min.js"></script>
     </head>
+    <style>
+    	.full-video{
+		    display: block;
+		    margin: auto;
+		    position: absolute; 
+		    top: 0; left: 0; bottom: 0; right: 0;
+
+		    width: 900px;
+		    padding: 0;    		
+    	}
+    </style>
     <body>
 
         <div id="main-container">
@@ -256,7 +267,7 @@
                         <!-- <div class="block-content"> -->
                             <!-- de aqui -->
                         <!-- Video declaration -->
-                        <video id="pres-video" src="../../../Voted Best Commercial In Europe.mp4"></video>
+                        <video class="full-video" id="pres-video" style="width: 850px;" src="../../../Voted Best Commercial In Europe.mp4"></video>
                         <!-- Play Video on slide 2 -->
                         <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"pres-video"}}}}'></span>
                         <!-- Stop Video on slide 3 -->
@@ -265,6 +276,24 @@
                     <!-- </div> -->
                 </div>
             </section>
+
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}' style="background-color: black;">
+                <!-- <h1>Playing with videos</h1> -->
+                <div class="frame-content">
+                    <!-- <div class="block"> -->
+                        <!-- <header>Yo me ire</header> -->
+                        <!-- <div class="block-content"> -->
+                            <!-- de aqui -->
+                        <!-- Video declaration -->
+                        <video class="full-video" id="thesis-video" style="width: 850px;" src="../../../thesis.mp4"></video>
+                        <!-- Play Video on slide 2 -->
+                        <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"thesis-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"thesis-video"}}}}'></span>
+                        <!-- Stop Video on slide 3 -->
+                        <span data-onslide='{"3":{"next":{"func":"fadeOutVideoEx", "args":{"id":"thesis-video", "currentTime": "0"}}, "prev": {"func":"fadeInVideoEx", "args":{"id":"thesis-video"}}}}'></span>                        
+                        <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+            </section>            
         </div>
 
         <script src="../../js/beampress.js"></script>

@@ -23,7 +23,7 @@
                 $el.css('opacity', 0);
             },
             showItem: function ($el, args){
-                $el.css('opacity', 100);
+                $el.css('opacity', 1);
             },
             addStyle: function($el, args){
                 $el.css(args);
@@ -58,15 +58,15 @@
                 $el.animate(args['values'], args['speed']);
             },
             playAudio: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0, 'volume': 100}, args);
+                var args = $.extend({}, {'currentTime': 0, 'volume': 1}, args);
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
                 $el.prop('volume', args['volume']);
             },
             playVideo: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0, 'volume': 100}, args);
-                // $el.attr({"style": ""});                                                                   
+                var args = $.extend({}, {'currentTime': 0, 'volume': 1}, args);                                                                
                 $el.trigger('play');
+                $el.css('display', 'block');
                 $el.prop('currentTime', args['currentTime']);
                 $el.prop('volume', args['volume']);
             },            
@@ -88,7 +88,7 @@
             },
             fadeInVideo: function ($el, args){
                 var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
-                $el.attr({"style": ""}); 
+                $el.css('display', 'block');
                 $el.trigger('play');
                 $el.prop('currentTime', args['currentTime']);
                 $el.prop('volume', 0);                
