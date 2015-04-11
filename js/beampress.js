@@ -494,13 +494,12 @@
         //Show all slide items that are 'present' on
         //previous slide 
         function previous(){
+            updatePrevious();
             if(self.options.currentSlide == 1){
                 if(self.options.currentFrame - 1 < 0) return;
                 previousFrame();
                 self.options.currentSlide = self.lastPerFrame[self.options.currentFrame] + 1;
-            } else { 
-                updatePrevious();
-            }
+            } 
             self.options.currentSlide--;
             update();
         }
