@@ -35,6 +35,7 @@
                 $el.css('display', 'none');
             },
             showFrame: function ($el, args){
+                $el.css('opacity', 1);
                 $el.css('display', 'block');
             },
             slowShowFrame: function ($el, args){
