@@ -67,6 +67,9 @@
                     $el.attr('src', defaults.mediaDict[$el.attr('id')]);
                 $el.trigger('load');
                 $el.bind('canplay', function(){
+                    // Checking if audio definition has curentTime
+                    if($el.attr('data-fromtime'))
+                        args['currentTime'] = $el.attr('data-fromtime');                    
                     $el.prop('currentTime', args['currentTime']);
                     $el.trigger('play');
                 });
@@ -77,6 +80,9 @@
                     $el.attr('src', defaults.mediaDict[$el.attr('id')]);
                 $el.trigger('load');
                 $el.bind('canplay', function(){
+                    // Checking if video definition has curentTime
+                    if($el.attr('data-fromtime'))
+                        args['currentTime'] = $el.attr('data-fromtime');
                     $el.prop('currentTime', args['currentTime']);
                     $el.trigger('play');
                     $el.css('display', 'block');
@@ -112,6 +118,9 @@
                     $el.attr('src', defaults.mediaDict[$el.attr('id')]);
                 $el.trigger('load');
                 $el.bind('canplay', function(){
+                    // Checking if audio definition has curentTime
+                    if($el.attr('data-fromtime'))
+                        args['currentTime'] = $el.attr('data-fromtime');                    
                     $el.prop('currentTime', args['currentTime']);
                     $el.trigger('play');
                     $el.prop('volume', 0);                      
@@ -135,6 +144,9 @@
                 $el.trigger('load');
                 $el.bind('canplay', function(){
                     $el.trigger('play');
+                    // Checking if video definition has curentTime
+                    if($el.attr('data-fromtime'))
+                        args['currentTime'] = $el.attr('data-fromtime');                    
                     $el.prop('currentTime', args['currentTime']);
                     $el.prop('volume', 0);                     
                 });                 
