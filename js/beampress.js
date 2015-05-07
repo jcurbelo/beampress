@@ -44,22 +44,22 @@
             slowShowFrame: function ($el, args){
                 $el.css('opacity', 0);
                 $el.css('display', 'block');
-                var args = $.extend({}, {'values':{'opacity': 1}, 'speed': 'slow'}, args);
-                $el.animate(args['values'], args['speed']);                
+                var args = $.extend({}, {'values':{'opacity': 1}, 'duration': 'slow'}, args);
+                $el.animate(args['values'], args['duration']);                
             },
             slowHideFrame: function ($el, args){
-                var args = $.extend({}, {'values':{'opacity': 0}, 'speed': 'slow'}, args);
-                $el.animate(args['values'], args['speed'], function(){
+                var args = $.extend({}, {'values':{'opacity': 0}, 'duration': 'slow'}, args);
+                $el.animate(args['values'], args['duration'], function(){
                     $el.css('display', 'none');
                 });                
             },
             slowHideItem: function ($el, args){
-                var args = $.extend({}, {'values':{'opacity': 0}, 'speed': 'slow'}, args);
-                $el.animate(args['values'], args['speed']);
+                var args = $.extend({}, {'values':{'opacity': 0}, 'duration': 'slow'}, args);
+                $el.animate(args['values'], args['duration']);
             },
             slowShowItem: function ($el, args){
-                var args = $.extend({}, {'values':{'opacity': 1}, 'speed': 'slow'}, args);
-                $el.animate(args['values'], args['speed']);
+                var args = $.extend({}, {'values':{'opacity': 1}, 'duration': 'slow'}, args);
+                $el.animate(args['values'], args['duration']);
             },
             playAudio: function ($el, args){
                 var args = $.extend({}, {'currentTime': 0, 'volume': 1}, args);
@@ -107,7 +107,7 @@
                 $el.attr('src', null);
             },            
             fadeInAudio: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
+                var args = $.extend({}, {'currentTime': 0, 'duration': 'slow', 'values':{'volume' : 1}}, args);
                 if(!$el.attr('src'))
                     $el.attr('src', defaults.mediaDict[$el.attr('id')]);
                 $el.trigger('load');
@@ -125,10 +125,10 @@
                 // media[0].currentTime = args['currentTime'];
                 // media[0].play();                                
               
-                $el.animate(args['values'], args['speed']);
+                $el.animate(args['values'], args['duration']);
             },
             fadeInVideo: function ($el, args){
-                var args = $.extend({}, {'currentTime': 0, 'speed': 'slow', 'values':{'volume' : 1}}, args);
+                var args = $.extend({}, {'currentTime': 0, 'duration': 'slow', 'values':{'volume' : 1}}, args);
                 if(!$el.attr('src'))
                     $el.attr('src', defaults.mediaDict[$el.attr('id')]);
                 $el.css('display', 'block');
@@ -146,13 +146,13 @@
                 // defaults.mediaDict[$el.attr('id')] = media;
                 // media[0].currentTime = args['currentTime'];
                 // media[0].play();                 
-                $el.animate(args['values'], args['speed']);              
+                $el.animate(args['values'], args['duration']);              
             },
             fadeOutAudio: function ($el, args){
-                var args = $.extend({}, {'speed': 'slow', 'values':{'volume' : 0}}, args);
+                var args = $.extend({}, {'duration': 'slow', 'values':{'volume' : 0}}, args);
                 // Assuming that media object was previosly created
                 // var media = defaults.mediaDict[$el.attr('id')];
-                // $el.animate(args['values'], args['speed'], function () {
+                // $el.animate(args['values'], args['duration'], function () {
                     // $el.trigger('pause');
                     // $el.remove();
                     // defaults.mediaDict[$el.attr('id')] = defaults.mediaDict[$el.attr('id')] || $el.attr('src');
@@ -167,10 +167,10 @@
                 // $el.attr('src', null);                  
             },
             fadeOutVideo: function ($el, args){
-                var args = $.extend({}, {'speed': 'slow', 'values':{'volume' : 0}}, args);
+                var args = $.extend({}, {'duration': 'slow', 'values':{'volume' : 0}}, args);
                 // Assuming that media object was previosly created
                 // var media = defaults.mediaDict[$el.attr('id')];
-                // $el.animate(args['values'], args['speed'], function () {
+                // $el.animate(args['values'], args['duration'], function () {
                     // $el.trigger('pause');
                     // $el.remove();
                     defaults.mediaDict[$el.attr('id')] = defaults.mediaDict[$el.attr('id')] || $el.attr('src');
