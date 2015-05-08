@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/warsaw.css">
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../js/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+
+        <div id="main-container">
+            <!-- Frame -->
+            <section class="frame">
+                <div class="frame-content">
+                    <div class="block-title">
+                        A simple <i>beampress</i> tutorial 
+                    </div>
+
+                    <div  class="authors">
+                        <ul>
+                            <li>Jorge R. Curbelo Fernández <i>@jcurbelo</i></li>
+                        </ul>
+                    </div>
+
+                    <div class="inst">
+                        <p >Presentation plugin based on Beamer's syntax.</p>
+                    </div>
+                </div>
+
+
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Simple Usage</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Main Container 
+                        </header>
+                        <div class="block-content">
+                            Wrap all presentation content into a container e.g <i>main-container</i>. This element will contains all the <i>frames</i> and <i>slide-items</i>.
+                            <pre>
+                                &lt;div class="main-container"&gt;
+                                     &lt;!-- The frames (presentation content) go here --&gt;
+                                &lt;/div&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                    <div data-onslide="2-" class="block">
+                        <header>Defining <i>frames</i></header>
+                        <div class="block-content">
+                            Frames are defined using the <i>frame</i> class. The flow of the presentation slides will have the order in which the <i>frame</i> elements are defined.
+                            <pre>
+                                &lt;div class="main-container"&gt;
+                                     &lt;section class="frame"&gt;First Frame&lt;/section&gt;
+                                     &lt;section class="frame"&gt;Second Frame&lt;/section&gt;
+                                     &lt;!-- ... --&gt;
+                                     &lt;section class="frame"&gt;Nth Frame&lt;/section&gt;
+                                &lt;/div&gt;
+                            </pre>                            
+                        </div> 
+                    </div>
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Using slides</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Frame slides 
+                        </header>
+                        <div class="block-content">
+                            The slides intervals of each 'slide-item' are specified with the <i>data-onslide</i> attr. A 'slide-item' can have one or more intervals (separated by comma). This syntax have the same Beamer's interval notation. Note that if an element doesn't contain this attr will always be visible.
+                            <pre>
+                                &lt;section class="frame"&gt;
+                                    &lt;h1&gt;I'll be always visible!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1-"&gt;I'll be present from slide 1 to the end.&lt;/span&gt;
+                                    &lt;span data-onslide="2,4"&gt;I'll be present on slide 2 and 4.&lt;/span&gt;
+                                    &lt;span data-onslide="1,2-4,7-"&gt;I'll be present from slide 1 to 4 and then from slide 7 to the end.&lt;/span&gt;
+                                    &lt;span data-onslide="-3,5-8"&gt;I'll be present until slide 3 and then from slide 5 to 8.&lt;/span&gt;
+                                &lt;/section&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                    <div data-onslide="2-" class="block">
+                        <div class="block-content">
+                            <b>Note</b>: <br>
+                            Showing/Hiding 'slide-items' using this way, are made by transforming css <i>opacity</i> attr. No animation is used.
+                        </div>
+                    </div>
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Using slides</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Changing style 
+                        </header>
+                        <div class="block-content">
+                            'Slide-items' css properties can be updated on a specific slide using a 'data-style' attr. This 'data-style' recieves a 'property' : 'value' dictionary e.g data-style="'font-weight':'bold'", which are the rules to be updated on the 'slide-item'. Combining <i>data-onslide</i> and <i>data-style</i> attrs, different slide effects can be done.
+                            <pre>
+                                &lt;section class="frame"&gt;
+                                    &lt;ul&gt;    
+                                        &lt;li data-onslide="1-"&gt; 
+                                            &lt;span data-onslide="2-" data-style="'font-style':'italic'"&gt;
+                                                I want to 
+                                                &lt;span data-onslide="3-" data-style="'color': 'red'"&gt;
+                                                    change on slide 2 &amp; 3
+                                                &lt;/span&gt;
+                                            &lt;/span&gt;
+                                        &lt;/li&gt;
+                                        &lt;li data-onslide="2-"&gt;
+                                            Hello 
+                                            &lt;span data-onslide="3-" data-style="'color': '#0b79e5', 'font-weight':'bold'"&gt;  
+                                                bold 
+                                            &lt;/span&gt;
+                                        &lt;/li&gt;
+                                    &lt;/ul&gt;
+                                &lt;/section&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->    
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Using slides</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Using custom frame 'data-onslide' 
+                        </header>
+                        <div class="block-content">
+                            Custom frame intervals can be defined using 'data-onslide' in the 'frame' element; with this way only the 'slide-items' that are contained into frame intervals are shown.
+                            <pre>
+                                &lt;section class="frame" data-onslide="2, 4-6"&gt;
+                                    &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1"&gt;I'm never going to be visible :-( &lt;/span&gt;
+                                    &lt;span data-onslide="2"&gt;Cheers from and only slide 2 &lt;/span&gt;
+                                    &lt;span data-onslide="3-"&gt;I'll be present from slide 4&lt;/span&gt;
+                                    &lt;span data-onslide="4-"&gt;If you've followed this tutorial&lt;/span&gt;
+                                    &lt;span data-onslide="5-"&gt;Then&lt;/span&gt;
+                                    &lt;span data-onslide="6-"&gt;You know the rest&lt;/span&gt;
+                                &lt;/section&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame --> 
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>Using slides</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            Again frame 
+                        </header>
+                        <div class="block-content">
+                            The same frame but with differents slides can be shown using 'data-againframe'. This attr has the following syntax: 'data-againframe=[frame-id] intervals', where <i>intervals</i> have the same format as 'data-onslide' attr. For further information read <a href="http://mirror.ctan.org/macros/latex/contrib/beamer/doc/beameruserguide.pdf">Beamer Documentation</a>
+                            <pre>
+                                &lt;section id="f-1" class="frame" data-onslide="2, 4-6"&gt;
+                                    &lt;h1&gt;I'll be always visible despite frame intervals!!!&lt;/h1&gt;
+                                    &lt;span data-onslide="1"&gt;Now i'm going to exists with the first againframe call &lt;/span&gt;
+                                    &lt;span data-onslide="2"&gt;Cheers from and only slide 2 &lt;/span&gt;
+                                    &lt;span data-onslide="3-"&gt;I'll be present from slide 4 and in the second againframe call&lt;/span&gt;
+                                    &lt;span data-onslide="4-"&gt;If you've followed this tutorial&lt;/span&gt;
+                                    &lt;span data-onslide="5-"&gt;Then&lt;/span&gt;
+                                    &lt;span data-onslide="6-"&gt;You know the rest&lt;/span&gt;
+                                    &lt;span data-onslide="7-"&gt;See ya!!!&lt;/span&gt;
+                                &lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 1"&gt;&lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 2"&gt;&lt;/section&gt;
+                                &lt;section class="frame" data-againframe="[f-1] 4-7"&gt;&lt;/section&gt;
+                            </pre>
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->     
+
+            <!-- Frame -->
+            <section class="frame">
+                <h1>The End</h1>
+                <div class="frame-content">
+                    <div data-onslide="1-" class="block">
+                        <header>
+                            That's all
+                        </header>
+                        <div class="block-content">
+                            Hope you like this tool..
+                            <b>Remember</b>: Presentation design and style is up to you.
+                            <br>
+                            Regards!!!
+                        </div>
+
+                    </div>
+
+                </div>
+                <footer class="clearfix">
+                    <div class="authors">
+                        <p>Jorge R. Curbelo Fernández <i>@jcurbelo</i></p>
+                    </div>
+                    <div class="topic"><p>Beampress Tutorial</p></div>
+                </footer>
+            </section>
+            <!-- End of frame -->                                                            
+
+        </div>
+
+        
+        <script src="../../js/beampress.js"></script>
+        <script>       
+            $(document).ready(function(){
+                $("#main-container").beampress({
+                    showItemTransition: function ($el){
+                        var h = $el.css('height');
+                        $el.css('height', 0);
+                        $el.css('opacity', 0);
+                        $el.animate({
+                            height: h,
+                            opacity: 1
+                        }, 500);
+                    },
+
+                    hideItemTransition: function ($el){
+                        $el.animate({
+                            opacity: 0
+                        }, 500);
+                    }
+                });                                
+            });
+        </script>
+    </body>
+</html>

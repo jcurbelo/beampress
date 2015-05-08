@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="../warsaw/css/warsaw.css">
+        <!-- Chang URLs to wherever Video.js files will be hosted -->
+        <!-- <link href="css/video-js.min.css" rel="stylesheet" type="text/css"> -->
+        <!-- video.js must be in the <head> for older IEs to work. -->
+        <!-- <script src="../../js/video.js"></script> -->
+        <script src="../../js/jquery-1.10.2.min.js"></script>
+    </head>
+    <style>
+    	.full-video{
+		    display: block;
+		    margin: auto;
+		    position: absolute; 
+		    top: 0; left: 0; bottom: 0; right: 0;
+
+		    width: 900px;
+		    padding: 0;    		
+    	}
+    </style>
+    <body>
+
+        <div id="main-container">
+            <section class="frame">
+                <!-- Audio declaration -->
+                <audio id="pres-media" src="../../../inicio.mp3"></audio>
+
+                <!-- Play Audio on slide 2 -->
+                <span data-onslide='{"2":{"next":{"func":"playAudioEx", "args":{"id":"pres-media", "currentTime": "26"}}, "prev": {"func":"stopAudioEx", "args":{"id":"pres-media"}}}}'></span>
+
+                <!-- Stop Audio with fade out on slide 3 -->
+                <span data-onslide='{"3":{"next":{"func":"fadeOutAudioEx", "args":{"id":"pres-media"}}, "prev": {"func":"fadeInAudioEx", "args":{"id":"pres-media", "currentTime": "0"}}}}'></span>
+                
+                <!-- Play Audio with fade out on slide 5 -->
+                <span data-onslide='{"5":{"next":{"func":"fadeInAudioEx", "args":{"id":"pres-media", "currentTime": "0"}}, "prev": {"func":"fadeOutAudioEx", "args":{"id":"pres-media"}}}}'></span>
+
+                <h1>Un ejemplo del minipage</h1>
+                <div class="frame-content">
+                    <div class="hfil">
+                        <!-- data-onslide="1-" -->
+                        <div data-onslide='1-' class="minipage" style="width:350px;">
+                            Este es un minipage que supuestamente tiene la mitad del linewidth de ancho. Aqui estoy escribiendo solo para que sea lo suficientemente grande y sea mas de lo que se lleva el minipage.
+                            <!-- data-onslide="2-" -->
+                            <div class="block" data-onslide='2-; {"3":{"next":{"func":"inc", "args":{}}, "prev": {"func":"dec", "args":{}}}}; {"4":{"next":{"func":"dec", "args":{}}, "prev": {"func":"inc", "args":{}}}}'>
+                                <header>
+                                    un bloque en minipage
+                                </header>
+                                <!-- data-onslide="3-" -->
+                                <div class="block-content" data-onslide="3-">
+                                    Fijate que se ajusta al tamanno del minipage.
+                                </div>
+                            </div>                  
+                        </div>
+                        <!-- data-onslide="4-" -->
+                        <div class="minipage" style="width: 350px;" data-onslide="4-">
+                            otro minipage. Aqui se pueden poner imágenes, pero no las pongo para no tener que mandarlas.
+                            <span data-onslide='{"5":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}'>Y yo soy asi</span>    
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="frame">
+                <!-- Stop Audio on slide 2 (now into another frame) -->
+                <!-- Note that "prev slide" plays the audio on "currentTime = 60s"  -->
+                <span data-onslide='{"2":{"next":{"func":"stopAudioEx", "args":{"id":"pres-media"}}, "prev": {"func":"playAudioEx", "args":{"id":"pres-media", "currentTime": "60"}}}}'></span>
+                <h1>Varios minipages</h1>
+                <div class="frame-content">
+                    <div class="center">
+                        <!-- data-onslide="1-" -->
+                        <div class="minipage" style="width: 220px;" data-onslide="1-">
+                            El primer minipage con un tamanno de "3" cm.
+                            <!-- data-onslide="2-" -->
+                            <div class="block" data-onslide="2-">
+                                <header>
+                                    otro bloque
+                                </header>
+                                <div class="block-content">
+                                    na, otro bloque ahi
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hspace" style="width:80px;"></div>
+                        <!-- data-onslide="3-" -->
+                        <div class="minipage" style="width: 220px;" data-onslide="3-">
+                            El segundo minipage con un tamanno de "3" cm
+                            <div class="block">
+                                <div class="block-content">
+                                    Un bloque de ejemplo para que se ajuste
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hspace" style="width:80px;"></div>
+                        <!-- data-onslide="4-" -->
+                        <div class="minipage" style="width: 120px;" data-onslide="4-">
+                            El tercer minipage con un tamanno de "2" cm
+                        </div>                    
+                    </div>
+                    <!-- data-onslide="5-" -->
+                    <div class="block" data-onslide="5-"> 
+                        <div class="block-content">
+                            Ademas, entre cada par de bloques hay un hspace, que es un comando que agrega espacio entre dos elementos cualesquiera.
+                        </div>
+                    </div>                    
+                </div>
+            </section>
+
+            <section class="frame">
+                <h1>Un minipage dentro de otro</h1>
+                <div class="frame-content">
+                    <div class="center">
+                        <div class="hfil">
+                            <div class="minipage" style="width: 400px;">
+                                <!-- data-onslide="1-" -->
+                                <div class="block" data-onslide="1-">
+                                    <div class="block-content" >
+                                        Bueno, esto es facil
+                                    </div>
+                                </div>
+                                <div class="hfil">
+                                    <!-- data-onslide="2-" -->
+                                    <div class="minipage" style="width:201px;" data-onslide="2-">
+                                        <div class="block">
+                                            <div class="block-content" >
+                                                 Este es un minipage de "3" cm
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!-- data-onslide="3-" -->
+                                    <div class="minipage" style="width: 160px;" data-onslide='1-2; {"4":{"next":{"func":"slowShowItem", "args":{}}, "prev": {"func":"slowHideItem", "args":{}}}}; 5-'>
+                                        <div class="block">
+                                            <div class="block-content" >
+                                                  y este es de "2" cm
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>                              
+                            </div>
+                            <!-- data-onslide="4-" -->
+                            <div class="minipage" style="width: 200px;">
+                                <div class="block alert" data-onslide="4-">
+                                <header>
+                                    este es un block alert
+                                </header>
+                                    <div class="block-content">
+                                        Aqui hay "3" cm mas, en otro minipage.
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <!-- data-onslide="5-" -->
+                        <div class="block example" data-onslide="5-">
+                            <header>este es un block example</header>
+                            <div class="block-content">
+                                Y en este frame se usa el comando hfil, que agrega tanto espacio como se pueda entre los elementos que lo rodean.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="f-1" class="frame">
+                <h1>Probando againframe</h1>
+                <div class="frame-content">
+                    <div class="hfil">
+                        <div class="minipage" style="width: 200px">
+                            <!-- data-onslide="1" -->
+                            <div class="block alert" data-onslide="1">
+                                <header>Ojo</header>
+                                <div class="block-content">
+                                    Aparezco en el slide "1"
+                                </div>
+                            </div>
+                            <!-- data-onslide="2" -->
+                            <div class="block example" data-onslide="2">
+                                <header>ej</header>
+                                <div class="block-content">
+                                    Aparezco en el slide "2", sin ningun againframe
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="minipage" style="width: 200px">
+                            <!-- data-onslide="3-" -->
+                            <div class="block" data-onslide="3-">
+                                <header>"3" en adelante</header>
+                                <div class="block-content">
+                                    Como dice mi titulo
+                                </div>
+                            </div>
+                            <!-- data-onslide="4" -->
+                            <div class="block" data-onslide="4">
+                                <header>Solo "4"</header>
+                                <div class="block-content">
+                                    Slide "4" sin againframe
+                                </div>
+                            </div>                            
+                        </div>                        
+                    </div>
+                    <!-- data-onslide="5" -->
+                    <div class="block" data-onslide="5">
+                        <header>Soy del slide "5"</header>
+                        <div class="block-content">
+                            Ya lo oyeron
+                        </div>
+                    </div>
+                    <div class="block" data-onslide="6-">
+                        <header>Soy del slide "6" en adelante</header>
+                        <div class="block-content">
+                            Ya lo oyeron
+                            <span data-onslide="7">bueno yo soy del "7"</span>
+                        </div>
+                    </div>                    
+                </div>
+
+            </section>
+
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}'>
+                <h1>Probando estilos</h1>
+                <div class="frame-content">
+                    <div class="block">
+                        <header>Cambiando estilos</header>
+                        <div class="block-content">
+                            <!-- Ugly and new syntax -->
+                            <span data-onslide='1-; {"2":{"next":{"func":"addStyle", "args":{"font-size": "120%"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                <span data-onslide='1-;{"3":{"next":{"func":"addStyle", "args":{"font-style": "italic"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                    <span data-onslide='1-;{"4":{"next":{"func":"addStyle", "args":{"font-variant": "small-caps"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                        <span data-onslide='1-;{"5":{"next":{"func":"addStyle", "args":{"font-weight": "bold"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                            <span data-onslide='1-;{"6":{"next":{"func":"addStyle", "args":{"font-family": "Times New Roman"}}, "prev": {"func":"removeStyle", "args":{}}}}'>
+                                                Style using new syntax
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>
+                            <br>
+                            <!-- Old syntax -->
+                            <span data-onslide="2" data-style="font-size:120%">
+                                <span data-onslide="3" data-style="font-style:italic">
+                                    <span data-onslide="4" data-style="font-variant:small-caps">
+                                        <span data-onslide="5" data-style="font-weight:bold">
+                                            <span data-onslide="6" data-style="font-family:Times New Roman">
+                                                Style using old syntax
+                                            </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </span>                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}' style="background-color: black;">
+                <!-- <h1>Playing with videos</h1> -->
+                <div class="frame-content">
+                    <!-- <div class="block"> -->
+                        <!-- <header>Yo me ire</header> -->
+                        <!-- <div class="block-content"> -->
+                            <!-- de aqui -->
+                        <!-- Video declaration -->
+                        <video controls class="full-video" id="pres-video" style="width: 850px;" src="../../../forrest_gump.mp4">
+						</video>
+                        <!-- Play Video on slide 2 -->
+                        <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"pres-video"}}}}'></span>
+                        <!-- Stop Video on slide 3 -->
+                        <span data-onslide='{"3":{"next":{"func":"fadeOutVideoEx", "args":{"id":"pres-video", "currentTime": "0"}}, "prev": {"func":"fadeInVideoEx", "args":{"id":"pres-video"}}}}'></span>                        
+                        <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+            </section>
+
+            <section class="frame" data-onshow='{"func": "slowShowFrame", "args": {}}', data-onhide='{"func": "slowHideFrame", "args":{}}' style="background-color: black;">
+                <!-- <h1>Playing with videos</h1> -->
+                <div class="frame-content">
+                    <!-- <div class="block"> -->
+                        <!-- <header>Yo me ire</header> -->
+                        <!-- <div class="block-content"> -->
+                            <!-- de aqui -->
+                        <!-- Video declaration -->
+                        <video class="full-video" id="thesis-video" style="width: 850px;" src="../../../heart [320x240]~1.flv"></video>
+                        <!-- Play Video on slide 2 -->
+                        <span data-onslide='{"2":{"next":{"func":"fadeInVideoEx", "args":{"id":"thesis-video", "currentTime": "0"}}, "prev": {"func":"fadeOutVideoEx", "args":{"id":"thesis-video"}}}}'></span>
+                        <!-- Stop Video on slide 3 -->
+                        <span data-onslide='{"3":{"next":{"func":"fadeOutVideoEx", "args":{"id":"thesis-video", "currentTime": "0"}}, "prev": {"func":"fadeInVideoEx", "args":{"id":"thesis-video"}}}}'></span>                        
+                        <!-- </div> -->
+                    <!-- </div> -->
+                </div>
+            </section>            
+        </div>
+
+        <script src="../../js/beampress.js"></script>
+        <script>       
+            $(document).ready(function(){                
+                $("#main-container").beampress({
+                    'inc': increaseHeigth,
+                    'dec': decreaseHeight,
+                    'currentFrame': 0
+                });
+
+                function increaseHeigth($el, args){
+                    var args = $.extend({}, {'values':{'height': $el.height() + 100}, 'speed': 'slow'}, args);
+                    $el.animate(args['values'], args['speed']);
+                }
+
+                function decreaseHeight($el, args){
+                    var args = $.extend({}, {'values':{'height': $el.height() - 100}, 'speed': 'slow'}, args);
+                    $el.animate(args['values'], args['speed']);
+                }                                               
+            });
+        </script>
+    </body>
+</html>
