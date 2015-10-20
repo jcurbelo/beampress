@@ -617,32 +617,51 @@
                 return {'currentFrame':self.options.currentFrame, 'currentSlide': self.options.currentSlide };
             };
             var socket = self.options.socket;
+            var nextEvent = function(){
+                next();
+                console.log(self.options.mediaDict);
+                if(socket)
+                    socket.emit('update_info', {data: msg()});
+            };
+            var prevEvent = function(){
+                previous();
+                console.log(self.options.mediaDict);
+                if(socket)
+                    socket.emit('update_info', {data: msg()});
+            };
+
+            // socket events
             if(socket){
                 socket.on('next_response', function() {
-                    next();
-                    socket.emit('update_info', {data: msg()});
+                    nextEvent();
                 });
                 socket.on('prev_response', function() {
-                    previous();
-                    socket.emit('update_info', {data: msg()});
+                    prevEvent();
                 });        
-            }    
-            //triggering key up
+            }
+
+            // keyboard & wireless presenter events
             $(document).on('keyup', function (event){
-                 //right arrow || space bar
-                 if(event.which == 39 || event.which == 32){
-                     next();
-                     console.log(self.options.mediaDict);
-                     if(socket)
-                        socket.emit('update_info', {data: msg()});
-                 }
-                 //left arrow
-                 if(event.which == 37){
-                     previous();
-                     console.log(self.options.mediaDict);
-                     if(socket)
-                        socket.emit('update_info', {data: msg()});
-                 }
+                // right arrow || space bar
+                if(event.which == 39 || event.which == 32){
+                    nextEvent();
+                }
+                // left arrow
+                if(event.which == 37){
+                    prevEvent();
+                }
+            });
+
+            // mouse events
+            $(document).on('mousedown', function (event){
+                // left click
+                if(event.which == 1){
+                    nextEvent();
+                }
+                // right click
+                if(event.which == 3){
+                    prevEvent();
+                }                
             });            
         }
 
